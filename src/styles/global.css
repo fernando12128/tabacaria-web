@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+:root {
+  --bg: #060606;
+  --bg-2: #0c0c0c;
+  --text: #f4f4f4;
+  --muted: #9a9a9a;
+  --yellow: #d8b84c;
+  --yellow-dark: #b99731;
+  --border: rgba(255, 255, 255, 0.08);
+  --glass: rgba(255, 255, 255, 0.04);
+  --green-glow: rgba(0, 255, 163, 0.22);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ANIMAÇÃO DE ENTRADA DAS SEÇÕES */
+
+.reveal-section {
+  opacity: 0;
+  transform: translateY(70px) scale(0.985);
+  filter: blur(8px);
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease,
+    filter 0.9s ease;
+  will-change: opacity, transform, filter;
+}
+
+.reveal-section.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-section {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
