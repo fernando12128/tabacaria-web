@@ -1,12 +1,11 @@
 .how-section {
   position: relative;
-  padding: 120px 30px 130px;
+  padding: 120px 32px 130px;
   background:
     radial-gradient(circle at center, rgba(0, 255, 153, 0.04), transparent 30%),
     linear-gradient(to bottom, #050505 0%, #070707 100%);
   overflow: hidden;
 }
-
 
 .how-header {
   position: relative;
@@ -39,7 +38,12 @@
   width: 130px;
   height: 1px;
   margin: 28px auto 0;
-  background: linear-gradient(to right, transparent, rgba(216, 184, 76, 0.9), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(216, 184, 76, 0.9),
+    transparent
+  );
 }
 
 .how-steps {
@@ -89,6 +93,7 @@
   font-size: 0.95rem;
   font-weight: 800;
   box-shadow: 0 0 16px rgba(216, 184, 76, 0.35);
+  z-index: 5;
 }
 
 .how-icon-box {
@@ -104,12 +109,17 @@
     inset 0 0 0 1px rgba(255, 255, 255, 0.015),
     0 18px 40px rgba(0, 0, 0, 0.22);
   backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 2;
 }
 
 .how-icon {
   width: 34px;
   height: 34px;
   color: #2effba;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
 }
 
 .how-card h3 {
