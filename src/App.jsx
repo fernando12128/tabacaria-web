@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CartProvider } from "./context/CartContext";
 import Header from "./components/Header/Header";
 import Hero from "./components/Hero/Hero";
 import Planos from "./components/Planos/Planos";
@@ -6,9 +8,13 @@ import Kits from "./components/Kits/Kits";
 import ComoFunciona from "./components/ComoFunciona/ComoFunciona";
 import Depoimentos from "./components/Depoimentos/Depoimentos";
 import FAQ from "./components/FAQ/FAQ";
+import LojaPreview from "./components/LojaPreview/LojaPreview";
 import FooterCTA from "./components/FooterCTA/FooterCTA";
+import FloatingActions from "./components/FloatingActions/FloatingActions";
+import CartDrawer from "./components/CartDrawer/CartDrawer";
+import Produtos from "./pages/Produtos";
 
-export default function App() {
+function HomePage() {
   useEffect(() => {
     const selectors = [
       ".hero-section",
@@ -17,6 +23,7 @@ export default function App() {
       ".how-section",
       ".testimonials-section",
       ".faq-section",
+      ".shop-preview-section",
       ".footer-cta-section",
     ];
 
@@ -58,11 +65,36 @@ export default function App() {
       <Header />
       <Hero />
       <Planos />
+      <LojaPreview />
       <Kits />
       <ComoFunciona />
       <Depoimentos />
       <FAQ />
       <FooterCTA />
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <CartProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/produtos"
+            element={
+              <>
+                <Header />
+                <Produtos />
+              </>
+            }
+          />
+        </Routes>
+
+        <FloatingActions />
+        <CartDrawer />
+      </CartProvider>
+    </BrowserRouter>
   );
 }

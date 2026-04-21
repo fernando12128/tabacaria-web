@@ -1,0 +1,75 @@
+.floating-actions {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.floating-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.floating-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+}
+
+.floating-btn-chat {
+  background: linear-gradient(90deg, #d2ae38, #e7d27b);
+  color: #111;
+}
+
+.floating-btn-cart {
+  background: #39efbd;
+  color: #04150f;
+}
+
+.floating-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.floating-badge {
+  position: absolute;
+  top: -4px;
+  right: -2px;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #d2ae38;
+  color: #111;
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+}
+
+@media (max-width: 700px) {
+  .floating-actions {
+    right: 16px;
+    bottom: 16px;
+    gap: 12px;
+  }
+
+  .floating-btn {
+    width: 58px;
+    height: 58px;
+  }
+
+  .floating-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
