@@ -1,73 +1,126 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import { listStoreProducts } from "../../services/productsService";
 import "./LojaPreview.css";
-
-const products = [
-  { id: 1, category: "sedas", badge: "MAIS VENDIDO", name: "Sedas Premium", price: "R$ 14,90", image: "/images/produtos/sedas-premium.png" },
-  { id: 2, category: "charuto", badge: "EXCLUSIVO", name: "Charuto Gold Edition", price: "R$ 49,90", image: "/images/produtos/charuto-gold.png" },
-  { id: 3, category: "acessorios", badge: "LIMITADO", name: "Isqueiro Luxo", price: "R$ 89,90", image: "/images/produtos/isqueiro-luxo.png" },
-  { id: 4, category: "acessorios", badge: "", name: "Dichavador Black & Gold", price: "R$ 119,90", image: "/images/produtos/dichavador-black-gold.png" },
-  { id: 5, category: "sedas", badge: "NOVO", name: "Piteiras de Vidro", price: "R$ 29,90", image: "/images/produtos/piteiras-vidro.png" },
-];
-
-const filters = [
-  { label: "Todos", value: "all" },
-  { label: "Sedas & Papéis", value: "sedas" },
-  { label: "Acessórios", value: "acessorios" },
-  { label: "Charutos", value: "charuto" },
-];
 
 export default function LojaPreview() {
   const [active, setActive] = useState("all");
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const { addToCart } = useCart();
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        setIsLoading(true);
+        setErrorMessage("");
+
+        const data = await listStoreProducts();
+
+        setProducts(data.slice(0, 5));
+      } catch (error) {
+        console.error(error);
+        setErrorMessage("Não foi possível carregar os produtos.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadProducts();
+  }, []);
+
+  const filters = useMemo(() => {
+    const categories = Array.from(
+      new Map(
+        products.map((product) => [
+          product.categorySlug || product.category,
+          {
+            label: product.category || "Produtos",
+            value: product.categorySlug || product.category,
+          },
+        ])
+      ).values()
+    );
+
+    return [
+      {
+        label: "Todos",
+        value: "all",
+      },
+      ...categories,
+    ];
+  }, [products]);
 
   const filtered =
     active === "all"
       ? products
-      : products.filter((p) => p.category === active);
+      : products.filter(
+          (product) => (product.categorySlug || product.category) === active
+        );
 
   return (
     <section className="shop-preview-section">
       <div className="shop-preview-header">
-        <span className="shop-preview-tag">MONTE SEU KIT</span>
+        <p className="shop-preview-tag">MONTE SEU KIT</p>
 
         <h2>
           Curtiu o que viu? <span>Leve agora pra casa.</span>
         </h2>
 
-        <p>
-          Escolha seus itens favoritos ou monte seu kit personalizado.
-        </p>
+        <p>Escolha seus itens favoritos ou monte seu kit personalizado.</p>
       </div>
 
       <div className="shop-filters">
-        {filters.map((f) => (
+        {filters.map((filter) => (
           <button
-            key={f.value}
-            className={active === f.value ? "active" : ""}
-            onClick={() => setActive(f.value)}
+            key={filter.value}
+            className={active === filter.value ? "active" : ""}
+            onClick={() => setActive(filter.value)}
             type="button"
           >
-            {f.label}
+            {filter.label}
           </button>
         ))}
       </div>
 
+      {isLoading && (
+        <p className="shop-message">Carregando produtos do estoque...</p>
+      )}
+
+      {errorMessage && <p className="shop-message">{errorMessage}</p>}
+
+      {!isLoading && !errorMessage && filtered.length === 0 && (
+        <p className="shop-message">Nenhum produto disponível.</p>
+      )}
+
       <div className="shop-grid">
-        {filtered.map((p) => (
-          <div className="shop-card" key={p.id}>
-            {p.badge && <span className="badge">{p.badge}</span>}
+        {filtered.map((product) => (
+          <article className="shop-card" key={product.id}>
+            {product.badge && <span className="badge">{product.badge}</span>}
 
-            <img src={p.image} alt={p.name} />
+            <img src={product.image} alt={product.name} />
 
-            <h3>{p.name}</h3>
-            <span className="price">{p.price}</span>
+            <h3>{product.name}</h3>
 
-            <button type="button" onClick={() => addToCart(p)}>
-              + Adicionar
+            <span className="price">{product.price}</span>
+
+            <span className={product.stock > 0 ? "stock-ok" : "stock-out"}>
+              {product.stock > 0
+                ? `${product.stock} em estoque`
+                : "Indisponível"}
+            </span>
+
+            <button
+              type="button"
+              onClick={() => addToCart(product)}
+              disabled={product.stock <= 0}
+            >
+              {product.stock > 0 ? "+ Adicionar" : "Sem estoque"}
             </button>
-          </div>
+          </article>
         ))}
       </div>
 

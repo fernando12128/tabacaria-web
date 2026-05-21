@@ -104,3 +104,59 @@
   border-radius: 999px;
   color: #000;
 }
+
+.produtos-message,
+.loja-preview-message {
+  color: #ffffff;
+  opacity: 0.85;
+  text-align: center;
+  margin: 24px 0;
+}
+
+.stock-ok {
+  display: block;
+  color: #22c55e;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+.stock-out {
+  display: block;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.shop-message {
+  color: #aaa;
+  text-align: center;
+  margin: 24px 0;
+}
+
+.shop-card button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.shop-card .stock-ok,
+.shop-card .stock-out {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin: 4px 0 10px;
+}
+
+.shop-card .stock-ok {
+  color: #2effba;
+}
+
+.shop-card .stock-out {
+  color: #ef4444;
+}

@@ -199,6 +199,65 @@
   filter: brightness(1.05);
 }
 
+.produtos-message,
+.loja-preview-message {
+  color: #ffffff;
+  opacity: 0.85;
+  text-align: center;
+  margin: 24px 0;
+}
+
+.stock-ok {
+  display: block;
+  color: #22c55e;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+.stock-out {
+  display: block;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.products-message {
+  max-width: 1200px;
+  margin: 24px auto;
+  text-align: center;
+  color: #a4a4a4;
+  font-size: 1rem;
+}
+
+.product-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.product-content .stock-ok,
+.product-content .stock-out {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.product-content .stock-ok {
+  color: #2effba;
+}
+
+.product-content .stock-out {
+  color: #ef4444;
+}
+
 @media (max-width: 1200px) {
   .products-grid {
     grid-template-columns: repeat(3, minmax(220px, 1fr));

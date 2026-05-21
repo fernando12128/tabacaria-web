@@ -11,39 +11,27 @@ export default function CartDrawer() {
     formattedTotalPrice,
   } = useCart();
 
+  function handleFinishClick() {
+    alert(
+      "Checkout ainda não implementado. Por enquanto estamos integrando apenas produtos e estoque."
+    );
+  }
+
   return (
     <>
       <div
         className={`cart-overlay ${isCartOpen ? "show" : ""}`}
         onClick={closeCart}
-      />
+      ></div>
 
       <aside className={`cart-drawer ${isCartOpen ? "open" : ""}`}>
         <div className="cart-drawer-header">
           <div className="cart-drawer-title">
-            <svg viewBox="0 0 24 24" className="cart-title-icon" fill="none">
-              <path
-                d="M7 7h10l-1 10H8L7 7Z"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M9 7a3 3 0 1 1 6 0"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-              />
-            </svg>
+            <span className="cart-title-icon">🛒</span>
             <h2>Seu Carrinho</h2>
           </div>
 
-          <button
-            type="button"
-            className="cart-close"
-            onClick={closeCart}
-            aria-label="Fechar carrinho"
-          >
+          <button className="cart-close" type="button" onClick={closeCart}>
             ✕
           </button>
         </div>
@@ -59,15 +47,16 @@ export default function CartDrawer() {
               <article className="cart-item" key={item.id}>
                 <div className="cart-item-image-wrap">
                   <img
+                    className="cart-item-image"
                     src={item.image}
                     alt={item.name}
-                    className="cart-item-image"
                   />
                 </div>
 
                 <div className="cart-item-content">
                   <h3>{item.name}</h3>
                   <p>{item.price}</p>
+                  <small>Estoque: {item.stock}</small>
                 </div>
 
                 <div className="cart-item-controls">
@@ -85,6 +74,7 @@ export default function CartDrawer() {
                     type="button"
                     onClick={() => increaseQuantity(item.id)}
                     className="qty-btn"
+                    disabled={item.quantity >= item.stock}
                   >
                     +
                   </button>
@@ -100,7 +90,12 @@ export default function CartDrawer() {
             <strong>{formattedTotalPrice}</strong>
           </div>
 
-          <button type="button" className="cart-checkout-btn">
+          <button
+            type="button"
+            className="cart-checkout-btn"
+            onClick={handleFinishClick}
+            disabled={cartItems.length === 0}
+          >
             Finalizar compra
           </button>
         </div>

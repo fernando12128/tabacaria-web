@@ -191,6 +191,19 @@
   font-weight: 800;
 }
 
+.cart-item-content small {
+  display: block;
+  margin-top: 4px;
+  color: #9f9f9f;
+  font-size: 0.78rem;
+}
+
+.qty-btn:disabled,
+.cart-checkout-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 @media (max-width: 700px) {
   .cart-drawer {
     width: 100%;
