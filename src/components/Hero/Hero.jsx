@@ -1,27 +1,50 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Hero.css";
 
 export default function Hero() {
   const [openProgress, setOpenProgress] = useState(0);
+  const boxStageRef = useRef(null);
 
   useEffect(() => {
+    let animationFrameId = null;
+
     function handleScroll() {
-      const heroSection = document.querySelector(".hero-section");
+      if (animationFrameId) return;
 
-      if (!heroSection) return;
+      animationFrameId = window.requestAnimationFrame(() => {
+        const boxStage = boxStageRef.current;
 
-      const rect = heroSection.getBoundingClientRect();
-      const sectionHeight = heroSection.offsetHeight;
-      const visibleScroll = Math.min(Math.max(-rect.top, 0), sectionHeight * 0.9);
-      const progress = Math.min(visibleScroll / (sectionHeight * 0.55), 1);
+        if (!boxStage) {
+          animationFrameId = null;
+          return;
+        }
 
-      setOpenProgress(progress);
+        const boxTop = boxStage.getBoundingClientRect().top;
+        const viewportHeight = window.innerHeight;
+        const openingStart = viewportHeight * 0.68;
+        const openingDistance = viewportHeight * 0.52;
+        const progress = Math.min(
+          Math.max((openingStart - boxTop) / openingDistance, 0),
+          1
+        );
+
+        setOpenProgress(progress);
+        animationFrameId = null;
+      });
     }
 
     handleScroll();
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+
+      if (animationFrameId) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+    };
   }, []);
 
   function getLayerOpacities(progress) {
@@ -87,7 +110,7 @@ export default function Hero() {
 
         <p className="scroll-text">↓ ROLE PARA ABRIR A CAIXA</p>
 
-        <div className="hero-box-stage">
+        <div className="hero-box-stage" ref={boxStageRef}>
           <div
             className="hero-box-image-wrap"
             style={{
