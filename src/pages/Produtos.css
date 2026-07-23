@@ -88,10 +88,10 @@
 }
 
 .products-filters button.active {
-  background: #2effba;
-  border-color: #2effba;
-  color: #031b12;
-  box-shadow: 0 0 20px rgba(46, 255, 186, 0.22);
+  background: linear-gradient(90deg, #d2ae38, #e7d27b);
+  border-color: transparent;
+  color: #111;
+  box-shadow: 0 8px 24px rgba(216, 184, 76, 0.18);
 }
 
 .products-grid {
@@ -186,9 +186,9 @@
   width: 100%;
   height: 48px;
   border-radius: 999px;
-  background: rgba(0, 255, 163, 0.08);
-  border: 1px solid rgba(0, 255, 163, 0.22);
-  color: #2effba;
+  background: rgba(216, 184, 76, 0.08);
+  border: 1px solid rgba(216, 184, 76, 0.24);
+  color: var(--yellow);
   font-weight: 700;
   font-size: 1rem;
   transition: transform 0.2s ease, filter 0.2s ease;
@@ -196,7 +196,8 @@
 
 .product-button:hover {
   transform: translateY(-2px);
-  filter: brightness(1.05);
+  background: var(--yellow);
+  color: #111;
 }
 
 .produtos-message,

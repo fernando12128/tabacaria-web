@@ -34,16 +34,54 @@
 }
 
 .logo-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  background: rgba(255, 214, 87, 0.08);
-  border: 1px solid rgba(255, 214, 87, 0.2);
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(216, 184, 76, 0.2), rgba(216, 184, 76, 0.03)),
+    #0b0b0b;
+  border: 1px solid rgba(216, 184, 76, 0.36);
   color: var(--yellow);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 26px rgba(216, 184, 76, 0.14);
+  transform: rotate(-7deg);
+}
+
+.logo-icon::after {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 24px;
+  background: rgba(216, 184, 76, 0.34);
+  transform: rotate(28deg);
+}
+
+.logo-icon span {
+  position: absolute;
+  font-size: 0.76rem;
   font-weight: 800;
-  box-shadow: 0 0 18px rgba(216, 184, 76, 0.12);
+  line-height: 1;
+  transform: rotate(7deg);
+}
+
+.logo-icon span:first-child {
+  top: 8px;
+  left: 9px;
+}
+
+.logo-icon span:last-child {
+  right: 8px;
+  bottom: 7px;
+}
+
+.logo-wordmark {
+  letter-spacing: -0.02em;
 }
 
 .nav {
@@ -56,12 +94,29 @@
 }
 
 .nav a {
+  position: relative;
+  padding: 10px 0;
   transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 3px;
+  height: 1px;
+  background: var(--yellow);
+  transition: right 0.22s ease;
 }
 
 .nav a:hover {
   color: #ffffff;
   transform: translateY(-1px);
+}
+
+.nav a:hover::after {
+  right: 0;
 }
 
 .header-actions {

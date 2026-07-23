@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
 import Header from "./components/Header/Header";
 import Hero from "./components/Hero/Hero";
@@ -13,6 +13,18 @@ import FooterCTA from "./components/FooterCTA/FooterCTA";
 import FloatingActions from "./components/FloatingActions/FloatingActions";
 import CartDrawer from "./components/CartDrawer/CartDrawer";
 import Produtos from "./pages/Produtos";
+
+function RouteScrollManager() {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }, [pathname, hash]);
+
+  return null;
+}
 
 function HomePage() {
   useEffect(() => {
@@ -79,6 +91,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <CartProvider>
+        <RouteScrollManager />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route

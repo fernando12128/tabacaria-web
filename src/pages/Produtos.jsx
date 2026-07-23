@@ -86,6 +86,7 @@ export default function Produtos() {
               className={activeFilter === filter.value ? "active" : ""}
               onClick={() => setActiveFilter(filter.value)}
               type="button"
+              aria-pressed={activeFilter === filter.value}
             >
               {filter.label}
             </button>
@@ -112,7 +113,7 @@ export default function Produtos() {
               <div className="product-image-wrap">
                 <div className="product-glow"></div>
 
-                <img src={product.image} alt={product.name} />
+                <img src={product.image} alt={product.name} loading="lazy" />
               </div>
 
               <div className="product-content">

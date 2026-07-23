@@ -1,148 +1,268 @@
 .shop-preview-section {
-  padding: 120px 30px;
+  position: relative;
+  padding: 100px 30px 110px;
   text-align: center;
+  background:
+    radial-gradient(circle at center, rgba(216, 184, 76, 0.045), transparent 34%),
+    linear-gradient(to bottom, #070707, #050505);
+  overflow: hidden;
+}
+
+.shop-preview-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.018) 1px,
+    transparent 1px
+  );
+  background-size: 100% 76px;
+  mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+}
+
+.shop-preview-header,
+.shop-filters,
+.shop-grid,
+.shop-action,
+.shop-message {
+  position: relative;
+  z-index: 1;
+}
+
+.shop-preview-header {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.shop-preview-tag {
+  display: inline-block;
+  color: #2effba !important;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.42em;
+  margin: 0 0 18px !important;
 }
 
 .shop-preview-header h2 {
-  font-size: 3.5rem;
   color: #fff;
+  font-size: clamp(2.45rem, 5vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.05em;
 }
 
-.shop-preview-header span {
-  color: #d2ae38;
+.shop-preview-header h2 span {
+  color: var(--yellow);
 }
 
-.shop-preview-header p {
-  color: #aaa;
-  margin-top: 10px;
+.shop-preview-header > p:last-child {
+  color: #a9a9a9;
+  margin-top: 16px;
+  font-size: 1.14rem;
+  line-height: 1.6;
 }
-
-/* FILTROS */
 
 .shop-filters {
-  margin: 40px 0;
+  max-width: 1200px;
+  margin: 38px auto 34px;
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
 .shop-filters button {
+  min-height: 44px;
   padding: 10px 18px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: #aaa;
-  cursor: pointer;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #c5c5c5;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.shop-filters button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
 
 .shop-filters button.active {
-  background: #00ffa3;
-  color: #000;
+  background: linear-gradient(90deg, #d2ae38, #e7d27b);
+  border-color: transparent;
+  color: #111;
+  box-shadow: 0 8px 24px rgba(216, 184, 76, 0.18);
 }
 
-/* GRID */
-
 .shop-grid {
+  width: 100%;
+  max-width: 1450px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 20px;
 }
 
 .shop-card {
-  background: rgba(255,255,255,0.02);
-  border-radius: 20px;
-  padding: 20px;
   position: relative;
+  min-width: 0;
+  min-height: 390px;
+  padding: 18px 16px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.025),
+    0 18px 38px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.shop-card img {
-  width: 100%;
-  height: 150px;
+.shop-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(216, 184, 76, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 24px 54px rgba(0, 0, 0, 0.3);
+}
+
+.shop-card-image {
+  position: relative;
+  height: 190px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+}
+
+.shop-card-image img {
+  position: relative;
+  z-index: 2;
+  width: auto;
+  height: auto;
+  max-width: 88%;
+  max-height: 165px;
   object-fit: contain;
+  transition: transform 0.25s ease;
+}
+
+.shop-card:hover .shop-card-image img {
+  transform: scale(1.035);
+}
+
+.shop-card-glow {
+  position: absolute;
+  width: 115px;
+  height: 115px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(216, 184, 76, 0.17), transparent 70%);
+  filter: blur(18px);
+}
+
+.shop-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .shop-card h3 {
-  color: #fff;
-  font-size: 1rem;
-  margin-top: 10px;
+  color: #f4f4f4;
+  font-size: 1.02rem;
+  line-height: 1.4;
+  min-height: 46px;
 }
 
-.price {
+.shop-card .price {
   display: block;
-  color: #d2ae38;
-  font-weight: bold;
-  margin: 8px 0;
+  color: var(--yellow);
+  font-size: 1.55rem;
+  font-weight: 800;
+  margin: 8px 0 3px;
 }
 
 .shop-card button {
   width: 100%;
-  padding: 10px;
+  min-height: 48px;
+  padding: 10px 14px;
   border-radius: 999px;
-  background: rgba(0,255,150,0.1);
-  color: #00ffa3;
-  border: 1px solid rgba(0,255,150,0.2);
+  background: rgba(216, 184, 76, 0.08);
+  color: var(--yellow);
+  border: 1px solid rgba(216, 184, 76, 0.24);
+  font-weight: 700;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.shop-card button:not(:disabled):hover {
+  transform: translateY(-2px);
+  background: var(--yellow);
+  color: #111;
 }
 
 .badge {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 0.7rem;
-  background: rgba(0,255,150,0.2);
+  z-index: 3;
+  top: 14px;
+  right: 14px;
   padding: 5px 10px;
   border-radius: 999px;
+  background: rgba(46, 255, 186, 0.1);
+  border: 1px solid rgba(46, 255, 186, 0.22);
+  color: #2effba;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
 .shop-action {
-  margin-top: 30px;
+  margin-top: 38px;
 }
 
 .shop-action a {
-  padding: 12px 25px;
-  background: linear-gradient(90deg,#d2ae38,#e7d27b);
+  min-height: 54px;
+  padding: 0 26px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   border-radius: 999px;
-  color: #000;
-}
-
-.produtos-message,
-.loja-preview-message {
-  color: #ffffff;
-  opacity: 0.85;
-  text-align: center;
-  margin: 24px 0;
-}
-
-.stock-ok {
-  display: block;
-  color: #22c55e;
-  font-size: 13px;
+  background: linear-gradient(90deg, #d2ae38, #e7d27b);
+  color: #111;
   font-weight: 700;
-  margin: 8px 0;
+  box-shadow: 0 10px 30px rgba(216, 184, 76, 0.16);
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
 }
 
-.stock-out {
-  display: block;
-  color: #ef4444;
-  font-size: 13px;
-  font-weight: 700;
-  margin: 8px 0;
+.shop-action a:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
 }
 
-button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
+.shop-action a span {
+  transition: transform 0.2s ease;
+}
+
+.shop-action a:hover span {
+  transform: translateX(3px);
 }
 
 .shop-message {
-  color: #aaa;
+  color: #b8b8b8;
   text-align: center;
   margin: 24px 0;
-}
-
-.shop-card button:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
 }
 
 .shop-card .stock-ok,
@@ -150,7 +270,7 @@ button:disabled {
   display: block;
   font-size: 0.78rem;
   font-weight: 700;
-  margin: 4px 0 10px;
+  margin: 4px 0 12px;
 }
 
 .shop-card .stock-ok {
@@ -158,5 +278,63 @@ button:disabled {
 }
 
 .shop-card .stock-out {
-  color: #ef4444;
+  color: #ff6b6b;
+}
+
+.shop-card button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1200px) {
+  .shop-grid {
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 850px) {
+  .shop-grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .shop-preview-section {
+    padding: 88px 18px 94px;
+  }
+
+  .shop-preview-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+  }
+
+  .shop-preview-header > p:last-child {
+    font-size: 1rem;
+  }
+
+  .shop-filters {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: -18px;
+    padding: 0 18px 8px;
+    scrollbar-width: none;
+  }
+
+  .shop-filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .shop-filters button {
+    flex: 0 0 auto;
+  }
+
+  .shop-grid {
+    grid-template-columns: 1fr;
+    max-width: 430px;
+  }
+
+  .shop-card {
+    min-height: 370px;
+  }
 }

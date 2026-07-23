@@ -1,6 +1,6 @@
 .testimonials-section {
   position: relative;
-  padding: 120px 30px 130px;
+  padding: 100px 30px 110px;
   background:
     radial-gradient(circle at center, rgba(0, 255, 153, 0.04), transparent 30%),
     linear-gradient(to bottom, #050505 0%, #070707 100%);
@@ -13,7 +13,7 @@
   position: relative;
   z-index: 2;
   text-align: center;
-  margin-bottom: 72px;
+  margin-bottom: 60px;
 }
 
 .testimonials-tag {

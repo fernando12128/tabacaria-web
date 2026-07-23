@@ -1,7 +1,7 @@
 .kits-section {
   position: relative;
   z-index: 2;
-  padding: 120px 32px 130px;
+  padding: 105px 32px 115px;
   background:
     radial-gradient(circle at center, rgba(0, 255, 153, 0.05), transparent 30%),
     linear-gradient(to bottom, #050505 0%, #070707 100%);

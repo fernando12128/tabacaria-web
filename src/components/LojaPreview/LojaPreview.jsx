@@ -80,6 +80,7 @@ export default function LojaPreview() {
             className={active === filter.value ? "active" : ""}
             onClick={() => setActive(filter.value)}
             type="button"
+            aria-pressed={active === filter.value}
           >
             {filter.label}
           </button>
@@ -101,17 +102,22 @@ export default function LojaPreview() {
           <article className="shop-card" key={product.id}>
             {product.badge && <span className="badge">{product.badge}</span>}
 
-            <img src={product.image} alt={product.name} />
+            <div className="shop-card-image">
+              <div className="shop-card-glow"></div>
+              <img src={product.image} alt={product.name} loading="lazy" />
+            </div>
 
-            <h3>{product.name}</h3>
+            <div className="shop-card-content">
+              <h3>{product.name}</h3>
 
-            <span className="price">{product.price}</span>
+              <span className="price">{product.price}</span>
 
-            <span className={product.stock > 0 ? "stock-ok" : "stock-out"}>
-              {product.stock > 0
-                ? `${product.stock} em estoque`
-                : "Indisponível"}
-            </span>
+              <span className={product.stock > 0 ? "stock-ok" : "stock-out"}>
+                {product.stock > 0
+                  ? `${product.stock} em estoque`
+                  : "Indisponível"}
+              </span>
+            </div>
 
             <button
               type="button"
@@ -125,7 +131,9 @@ export default function LojaPreview() {
       </div>
 
       <div className="shop-action">
-        <Link to="/produtos">Ver todos os produtos</Link>
+        <Link to="/produtos">
+          Ver todos os produtos <span aria-hidden="true">→</span>
+        </Link>
       </div>
     </section>
   );

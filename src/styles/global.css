@@ -20,6 +20,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 88px;
 }
 
 html,
@@ -43,9 +44,19 @@ a {
 button {
   font: inherit;
   border: none;
-  outline: none;
   cursor: pointer;
   background: transparent;
+}
+
+:where(a, button, [role="button"]):focus-visible {
+  outline: 3px solid rgba(216, 184, 76, 0.92);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+::selection {
+  background: rgba(216, 184, 76, 0.28);
+  color: #fff;
 }
 
 img,

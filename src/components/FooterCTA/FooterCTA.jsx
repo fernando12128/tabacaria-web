@@ -18,7 +18,10 @@ export default function FooterCTA() {
 
         <div className="footer-bottom">
           <div className="footer-brand">
-            <div className="footer-logo-icon">S</div>
+            <div className="footer-logo-icon" aria-hidden="true">
+              <span>S</span>
+              <span>B</span>
+            </div>
             <span>
               SmokeBox <strong>Club</strong>
             </span>
