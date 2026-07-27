@@ -42,14 +42,14 @@ export default function Header() {
           to={getSectionLink("topo")}
           className="logo"
           onClick={closeMenu}
-          aria-label="SmokeBox Club — voltar ao início"
+          aria-label="Prime Tobacco — voltar ao início"
         >
           <div className="logo-icon" aria-hidden="true">
-            <span>S</span>
-            <span>B</span>
+            <span>P</span>
+            <span>T</span>
           </div>
           <span className="logo-wordmark">
-            SmokeBox <strong>Club</strong>
+            Prime <strong>Tobacco</strong>
           </span>
         </Link>
 
