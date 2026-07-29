@@ -40,7 +40,7 @@ const initialMessages = [
 ];
 
 export default function FloatingActions() {
-  const { cartItems, totalItems, formattedTotalPrice, toggleCart, isCartOpen } =
+  const { cartItems, totalItems, formattedTotalPrice, isCartOpen } =
     useCart();
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [messages, setMessages] = useState(initialMessages);
@@ -253,31 +253,6 @@ export default function FloatingActions() {
           </svg>
         </button>
 
-        <button
-          className="floating-btn floating-btn-cart"
-          onClick={toggleCart}
-          aria-label="Abrir carrinho"
-          type="button"
-        >
-          {totalItems > 0 && (
-            <span className="floating-badge">{totalItems}</span>
-          )}
-
-          <svg viewBox="0 0 24 24" className="floating-icon" fill="none">
-            <path
-              d="M7 7h10l-1 10H8L7 7Z"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M9 7a3 3 0 1 1 6 0"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
       </div>
     </>
   );

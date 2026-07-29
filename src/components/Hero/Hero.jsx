@@ -3,7 +3,7 @@ import "./Hero.css";
 
 export default function Hero() {
   const [openProgress, setOpenProgress] = useState(0);
-  const boxStageRef = useRef(null);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     let animationFrameId = null;
@@ -12,19 +12,17 @@ export default function Hero() {
       if (animationFrameId) return;
 
       animationFrameId = window.requestAnimationFrame(() => {
-        const boxStage = boxStageRef.current;
+        const section = sectionRef.current;
 
-        if (!boxStage) {
+        if (!section) {
           animationFrameId = null;
           return;
         }
 
-        const boxTop = boxStage.getBoundingClientRect().top;
-        const viewportHeight = window.innerHeight;
-        const openingStart = viewportHeight * 0.68;
-        const openingDistance = viewportHeight * 0.52;
+        const sectionTop = section.getBoundingClientRect().top;
+        const openingDistance = Math.max(window.innerHeight * 0.5, 360);
         const progress = Math.min(
-          Math.max((openingStart - boxTop) / openingDistance, 0),
+          Math.max((-sectionTop - 36) / openingDistance, 0),
           1
         );
 
@@ -80,80 +78,75 @@ export default function Hero() {
   const { closed, opening, open } = getLayerOpacities(openProgress);
 
   return (
-    <section className="hero-section" id="topo">
+    <section className="hero-section" id="topo" ref={sectionRef}>
       <div className="background-glow"></div>
       <div className="background-noise"></div>
 
       <main className="hero">
-        <div className="edition-badge">
-          <span className="dot"></span>
-          EDIÇÃO #012 — ABRIL
+        <div className="hero-copy">
+          <div className="edition-badge">
+            <span className="dot"></span>
+            CURADORIA PREMIUM
+          </div>
+
+          <h1 className="title">
+            Eleve a sua <span className="highlight">experiência.</span>
+          </h1>
+
+          <p className="subtitle">
+            Produtos selecionados, acessórios premium e kits exclusivos
+            entregues todos os meses.
+          </p>
+
+          <div className="hero-buttons">
+            <a href="#catalogo" className="btn btn-primary">
+              Explorar catálogo <span aria-hidden="true">→</span>
+            </a>
+
+            <a href="#prime-club" className="btn btn-secondary">
+              Conhecer o Prime Club
+            </a>
+          </div>
+
+          <p className="scroll-text">
+            <span aria-hidden="true">↓</span> Role para abrir a caixa
+          </p>
         </div>
 
-        <h1 className="title">
-          Todo mês, uma <span className="highlight">nova</span>
-          <br />
-          <span className="highlight">experiência.</span>
-        </h1>
-
-        <p className="subtitle">Kits exclusivos para quem vive o ritual.</p>
-
-        <div className="hero-buttons">
-          <a href="#planos" className="btn btn-primary">
-            Assinar Agora
-          </a>
-
-          <a href="#kits" className="btn btn-secondary">
-            Ver kits
-          </a>
-        </div>
-
-        <p className="scroll-text">↓ ROLE PARA ABRIR A CAIXA</p>
-
-        <div className="hero-box-stage" ref={boxStageRef}>
-          <div
-            className="hero-box-image-wrap"
-            style={{
-              transform: `translateY(${openProgress * -12}px) scale(${1 + openProgress * 0.05})`,
-            }}
-          >
-            <img
-              src="/images/box-closed.png"
-              alt="Caixa fechada"
-              className="box-image layer-closed"
-              style={{
-                opacity: closed,
-                transform: `translateY(${openProgress * 4}px) scale(${1 - openProgress * 0.01})`,
-              }}
-            />
-
-            <img
-              src="/images/box-opening.png"
-              alt="Caixa abrindo"
-              className="box-image layer-opening"
-              style={{
-                opacity: opening,
-                transform: `translateY(${openProgress * -4}px) scale(${1 + openProgress * 0.015})`,
-              }}
-            />
-
-            <img
-              src="/images/box-open.png"
-              alt="Caixa aberta"
-              className="box-image layer-open"
-              style={{
-                opacity: open,
-                transform: `translateY(${openProgress * -10}px) scale(${1 + openProgress * 0.025})`,
-              }}
-            />
-
+        <div className="hero-visual" aria-label="Caixa Prime Tobacco abrindo">
+          <div className="hero-box-stage">
             <div
-              className="box-image-glow"
+              className="hero-box-image-wrap"
               style={{
-                opacity: 0.18 + openProgress * 0.95,
-                transform: `translateX(-50%) scale(${1 + openProgress * 0.45})`,
+                transform: `translateY(${openProgress * -12}px) scale(${1 + openProgress * 0.04})`,
               }}
-            ></div>
+            >
+              <img
+                src="/images/box-closed.png"
+                alt=""
+                className="box-image layer-closed"
+                style={{ opacity: closed }}
+              />
+              <img
+                src="/images/box-opening.png"
+                alt=""
+                className="box-image layer-opening"
+                style={{ opacity: opening }}
+              />
+              <img
+                src="/images/box-open.png"
+                alt=""
+                className="box-image layer-open"
+                style={{ opacity: open }}
+              />
+              <div
+                className="box-image-glow"
+                style={{
+                  opacity: 0.22 + openProgress * 0.72,
+                  transform: `translateX(-50%) scale(${1 + openProgress * 0.38})`,
+                }}
+              />
+            </div>
           </div>
         </div>
       </main>

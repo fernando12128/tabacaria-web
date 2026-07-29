@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 import "./Header.css";
 
 const navItems = [
-  { label: "Planos", hash: "planos" },
-  { label: "Kits", hash: "kits" },
-  { label: "Como funciona", hash: "como-funciona" },
-  { label: "Depoimentos", hash: "depoimentos" },
-  { label: "FAQ", hash: "faq" },
+  { label: "Catálogo", hash: "catalogo" },
+  { label: "Categorias", hash: "categorias" },
+  { label: "Prime Club", hash: "prime-club" },
+  { label: "Sobre", hash: "sobre" },
 ];
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { totalItems, toggleCart } = useCart();
 
   useEffect(() => {
     if (!location.hash) return;
@@ -44,12 +45,9 @@ export default function Header() {
           onClick={closeMenu}
           aria-label="Prime Tobacco — voltar ao início"
         >
-          <div className="logo-icon" aria-hidden="true">
-            <span>P</span>
-            <span>T</span>
-          </div>
           <span className="logo-wordmark">
-            Prime <strong>Tobacco</strong>
+            <i aria-hidden="true" />
+            PRIME <strong>TOBACCO.</strong>
           </span>
         </Link>
 
@@ -69,13 +67,18 @@ export default function Header() {
         </nav>
 
         <div className="header-actions">
-          <Link
-            to={getSectionLink("planos")}
-            className="btn btn-primary header-btn"
-            onClick={closeMenu}
+          <button
+            className="header-cart"
+            type="button"
+            onClick={toggleCart}
+            aria-label={`Abrir carrinho, ${totalItems} item(ns)`}
           >
-            Assinar Agora
-          </Link>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7 8h10l-1 10H8L7 8Z" />
+              <path d="M9 8a3 3 0 0 1 6 0" />
+            </svg>
+            {totalItems > 0 && <span>{totalItems}</span>}
+          </button>
 
           <button
             className={`menu-toggle ${mobileMenuOpen ? "active" : ""}`}
