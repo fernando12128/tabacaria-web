@@ -69,9 +69,9 @@ export default function Header() {
         <div className="header-actions">
           <Link
             className="header-account"
-            to="/login"
+            to="/minha-conta"
             onClick={closeMenu}
-            aria-label="Entrar na minha conta"
+            aria-label="Abrir minha conta"
           >
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <circle cx="12" cy="8" r="3.5" />
