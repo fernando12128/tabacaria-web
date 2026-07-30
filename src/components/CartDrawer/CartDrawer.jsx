@@ -27,12 +27,15 @@ export default function CartDrawer() {
       <aside className={`cart-drawer ${isCartOpen ? "open" : ""}`}>
         <div className="cart-drawer-header">
           <div className="cart-drawer-title">
-            <span className="cart-title-icon">🛒</span>
+            <svg className="cart-title-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7 8h10l-1 10H8L7 8Z" />
+              <path d="M9 8a3 3 0 0 1 6 0" />
+            </svg>
             <h2>Seu Carrinho</h2>
           </div>
 
           <button className="cart-close" type="button" onClick={closeCart}>
-            ✕
+            ×
           </button>
         </div>
 

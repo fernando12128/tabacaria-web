@@ -1,169 +1,156 @@
 .site-header {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 9999;
-  backdrop-filter: blur(14px);
-  background: rgba(4, 4, 4, 0.72);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  inset: 0 0 auto;
+  z-index: 9995;
+  height: 70px;
+  background: rgba(7, 7, 8, 0.76);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
 }
 
 .header-inner {
-  max-width: 1440px;
+  width: min(calc(100% - 40px), var(--container));
+  height: 100%;
   margin: 0 auto;
-  padding: 16px 22px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 32px;
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: #f4f4f4;
-  font-size: 1.08rem;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.logo strong {
-  color: var(--yellow);
-}
-
-.logo-icon {
-  position: relative;
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background:
-    linear-gradient(145deg, rgba(216, 184, 76, 0.2), rgba(216, 184, 76, 0.03)),
-    #0b0b0b;
-  border: 1px solid rgba(216, 184, 76, 0.36);
-  color: var(--yellow);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 8px 26px rgba(216, 184, 76, 0.14);
-  transform: rotate(-7deg);
-}
-
-.logo-icon::after {
-  content: "";
-  position: absolute;
-  width: 1px;
-  height: 24px;
-  background: rgba(216, 184, 76, 0.34);
-  transform: rotate(28deg);
-}
-
-.logo-icon span {
-  position: absolute;
-  font-size: 0.76rem;
-  font-weight: 800;
-  line-height: 1;
-  transform: rotate(7deg);
-}
-
-.logo-icon span:first-child {
-  top: 8px;
-  left: 9px;
-}
-
-.logo-icon span:last-child {
-  right: 8px;
-  bottom: 7px;
+  justify-self: start;
 }
 
 .logo-wordmark {
-  letter-spacing: -0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #f4f2ee;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.logo-wordmark i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 18px rgba(228, 185, 95, 0.36);
+}
+
+.logo-wordmark strong {
+  color: var(--yellow);
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 36px;
-  color: #bdbdbd;
+  gap: 38px;
+  color: #96959a;
+  font-size: 0.9rem;
   font-weight: 500;
-  font-size: 1.02rem;
 }
 
 .nav a {
   position: relative;
-  padding: 10px 0;
-  transition: color 0.2s ease, transform 0.2s ease;
+  padding: 12px 0;
+  transition: color 0.2s ease;
 }
 
 .nav a::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 100%;
-  bottom: 3px;
+  inset: auto 50% 5px;
   height: 1px;
   background: var(--yellow);
-  transition: right 0.22s ease;
+  transition: inset 0.2s ease;
 }
 
 .nav a:hover {
-  color: #ffffff;
-  transform: translateY(-1px);
+  color: #fff;
 }
 
 .nav a:hover::after {
-  right: 0;
+  inset-inline: 0;
 }
 
 .header-actions {
+  justify-self: end;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
-.header-btn {
-  min-width: 180px;
-  height: 54px;
+.header-cart,
+.menu-toggle {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: #eee;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.header-cart:hover,
+.menu-toggle:hover {
+  border-color: var(--border-gold);
+  background: rgba(228, 185, 95, 0.06);
+}
+
+.header-cart svg {
+  width: 19px;
+}
+
+.header-cart svg path {
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.header-cart > span {
+  position: absolute;
+  top: -5px;
+  right: -3px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--yellow);
+  color: #0a0a0a;
+  display: grid;
+  place-items: center;
+  font-size: 0.68rem;
+  font-weight: 800;
 }
 
 .menu-toggle {
   display: none;
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  position: relative;
 }
 
 .menu-toggle span {
   position: absolute;
-  left: 12px;
-  width: 22px;
-  height: 2px;
-  background: #f4f4f4;
-  border-radius: 999px;
-  transition: transform 0.25s ease, opacity 0.25s ease, top 0.25s ease;
+  width: 19px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.menu-toggle span:nth-child(1) {
-  top: 16px;
+.menu-toggle span:first-child {
+  transform: translateY(-6px);
 }
 
-.menu-toggle span:nth-child(2) {
-  top: 23px;
+.menu-toggle span:last-child {
+  transform: translateY(6px);
 }
 
-.menu-toggle span:nth-child(3) {
-  top: 30px;
-}
-
-.menu-toggle.active span:nth-child(1) {
-  top: 23px;
+.menu-toggle.active span:first-child {
   transform: rotate(45deg);
 }
 
@@ -171,52 +158,47 @@
   opacity: 0;
 }
 
-.menu-toggle.active span:nth-child(3) {
-  top: 23px;
+.menu-toggle.active span:last-child {
   transform: rotate(-45deg);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 880px) {
   .header-inner {
-    padding: 14px 16px;
+    width: min(calc(100% - 28px), var(--container));
+    grid-template-columns: 1fr auto;
   }
 
   .nav {
     position: absolute;
-    top: calc(100% + 10px);
-    left: 16px;
-    right: 16px;
+    top: 80px;
+    left: 14px;
+    right: 14px;
     display: none;
+    padding: 22px;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
-    padding: 20px;
-    border-radius: 22px;
-    background: rgba(8, 8, 8, 0.94);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    align-items: stretch;
+    gap: 4px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: rgba(13, 13, 15, 0.97);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
   }
 
   .nav.nav-open {
     display: flex;
   }
 
-  .menu-toggle {
-    display: block;
+  .nav a {
+    padding: 12px;
   }
 
-  .header-btn {
-    display: none;
+  .menu-toggle {
+    display: grid;
   }
 }
 
-@media (max-width: 700px) {
-  .logo span {
-    font-size: 0.96rem;
-  }
-
-  .logo-icon {
-    width: 36px;
-    height: 36px;
+@media (max-width: 480px) {
+  .logo-wordmark {
+    font-size: 0.88rem;
   }
 }

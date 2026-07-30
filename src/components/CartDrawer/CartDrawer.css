@@ -57,7 +57,14 @@
 .cart-title-icon {
   width: 24px;
   height: 24px;
-  color: #39efbd;
+  color: var(--yellow);
+}
+
+.cart-title-icon path {
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .cart-close {
@@ -185,8 +192,8 @@
   width: 100%;
   height: 56px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #39efbd, #39efbd);
-  color: #07120f;
+  background: var(--yellow);
+  color: #17120a;
   font-size: 1.1rem;
   font-weight: 800;
 }

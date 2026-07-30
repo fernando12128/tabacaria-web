@@ -4,10 +4,7 @@ import { CartProvider } from "./context/CartContext";
 import Header from "./components/Header/Header";
 import Hero from "./components/Hero/Hero";
 import Planos from "./components/Planos/Planos";
-import Kits from "./components/Kits/Kits";
-import ComoFunciona from "./components/ComoFunciona/ComoFunciona";
-import Depoimentos from "./components/Depoimentos/Depoimentos";
-import FAQ from "./components/FAQ/FAQ";
+import Categorias from "./components/Categorias/Categorias";
 import LojaPreview from "./components/LojaPreview/LojaPreview";
 import FooterCTA from "./components/FooterCTA/FooterCTA";
 import FloatingActions from "./components/FloatingActions/FloatingActions";
@@ -30,12 +27,9 @@ function HomePage() {
   useEffect(() => {
     const selectors = [
       ".hero-section",
-      ".plans-section",
-      ".kits-section",
-      ".how-section",
-      ".testimonials-section",
-      ".faq-section",
+      ".categories-section",
       ".shop-preview-section",
+      ".plans-section",
       ".footer-cta-section",
     ];
 
@@ -76,12 +70,9 @@ function HomePage() {
     <>
       <Header />
       <Hero />
-      <Planos />
+      <Categorias />
       <LojaPreview />
-      <Kits />
-      <ComoFunciona />
-      <Depoimentos />
-      <FAQ />
+      <Planos />
       <FooterCTA />
     </>
   );
