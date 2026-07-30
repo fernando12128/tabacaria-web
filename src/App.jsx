@@ -10,6 +10,8 @@ import FooterCTA from "./components/FooterCTA/FooterCTA";
 import FloatingActions from "./components/FloatingActions/FloatingActions";
 import CartDrawer from "./components/CartDrawer/CartDrawer";
 import Produtos from "./pages/Produtos";
+import Login from "./pages/Login";
+import Cadastro from "./pages/Cadastro";
 
 function RouteScrollManager() {
   const { pathname, hash } = useLocation();
@@ -78,26 +80,43 @@ function HomePage() {
   );
 }
 
+function AppRoutes() {
+  const { pathname } = useLocation();
+  const isAuthPage = pathname === "/login" || pathname === "/cadastro";
+
+  return (
+    <>
+      <RouteScrollManager />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/produtos"
+          element={
+            <>
+              <Header />
+              <Produtos />
+            </>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+      </Routes>
+
+      {!isAuthPage && (
+        <>
+          <FloatingActions />
+          <CartDrawer />
+        </>
+      )}
+    </>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <CartProvider>
-        <RouteScrollManager />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route
-            path="/produtos"
-            element={
-              <>
-                <Header />
-                <Produtos />
-              </>
-            }
-          />
-        </Routes>
-
-        <FloatingActions />
-        <CartDrawer />
+        <AppRoutes />
       </CartProvider>
     </BrowserRouter>
   );
