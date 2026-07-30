@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Auth.css";
 
 export default function Login() {
   const [feedback, setFeedback] = useState("");
+  const navigate = useNavigate();
 
   function handleSubmit(event) {
     event.preventDefault();
-    setFeedback(
-      "A tela está pronta. O acesso será liberado assim que conectarmos a autenticação ao backend."
-    );
+    setFeedback("Abrindo a demonstração da sua conta...");
+    window.setTimeout(() => navigate("/minha-conta"), 450);
   }
 
   return (
@@ -83,6 +83,9 @@ export default function Login() {
 
           <p className="auth-assist">
             Ainda não tem uma conta? <Link to="/cadastro">Criar cadastro</Link>
+          </p>
+          <p className="auth-demo-note">
+            Acesso demonstrativo enquanto a autenticação real não está conectada.
           </p>
         </div>
       </section>
