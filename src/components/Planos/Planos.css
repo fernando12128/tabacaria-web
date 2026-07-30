@@ -80,27 +80,25 @@
 .plan-card.featured::before {
   content: "";
   position: absolute;
-  inset: -6px;
+  inset: -2px;
   z-index: -1;
-  border-radius: 30px;
+  border-radius: 28px;
   box-shadow:
-    0 0 24px rgba(228, 185, 95, 0.34),
-    0 0 58px rgba(228, 185, 95, 0.18);
-  opacity: 0.48;
+    0 0 10px rgba(228, 185, 95, 0.24),
+    0 0 24px rgba(228, 185, 95, 0.1);
+  opacity: 0.34;
   pointer-events: none;
-  animation: featured-plan-pulse 2.8s ease-in-out infinite;
+  animation: featured-plan-pulse 3.4s ease-in-out infinite;
 }
 
 @keyframes featured-plan-pulse {
   0%,
   100% {
-    opacity: 0.42;
-    transform: scale(0.995);
+    opacity: 0.28;
   }
 
   50% {
-    opacity: 0.95;
-    transform: scale(1.012);
+    opacity: 0.62;
   }
 }
 
@@ -179,7 +177,10 @@
 }
 
 .plan-button {
+  position: relative;
+  isolation: isolate;
   width: 100%;
+  overflow: hidden;
   min-height: 52px;
   margin-top: auto;
   border: 1px solid var(--border);
@@ -194,6 +195,35 @@
     color 0.2s ease,
     border-color 0.2s ease,
     transform 0.2s ease;
+}
+
+.plan-card:not(.featured) .plan-button::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 -48%;
+  z-index: -1;
+  width: 38%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(228, 185, 95, 0.16),
+    transparent
+  );
+  transform: skewX(-18deg);
+  pointer-events: none;
+  animation: plan-button-gold-sweep 5.4s ease-in-out infinite;
+}
+
+@keyframes plan-button-gold-sweep {
+  0%,
+  58% {
+    left: -48%;
+  }
+
+  78%,
+  100% {
+    left: 112%;
+  }
 }
 
 .plan-card.featured .plan-button {
@@ -226,8 +256,13 @@
 @media (prefers-reduced-motion: reduce) {
   .plan-card.featured::before {
     animation: none;
-    opacity: 0.62;
+    opacity: 0.42;
     transform: none;
+  }
+
+  .plan-card:not(.featured) .plan-button::after {
+    animation: none;
+    display: none;
   }
 }
 
