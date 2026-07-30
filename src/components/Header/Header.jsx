@@ -67,6 +67,18 @@ export default function Header() {
         </nav>
 
         <div className="header-actions">
+          <Link
+            className="header-account"
+            to="/minha-conta"
+            onClick={closeMenu}
+            aria-label="Abrir minha conta"
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="8" r="3.5" />
+              <path d="M5.5 19c.8-3.2 3-5 6.5-5s5.7 1.8 6.5 5" />
+            </svg>
+          </Link>
+
           <button
             className="header-cart"
             type="button"
