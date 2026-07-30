@@ -12,6 +12,7 @@ import CartDrawer from "./components/CartDrawer/CartDrawer";
 import Produtos from "./pages/Produtos";
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
+import MinhaConta from "./pages/MinhaConta";
 
 function RouteScrollManager() {
   const { pathname, hash } = useLocation();
@@ -100,6 +101,15 @@ function AppRoutes() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
+        <Route
+          path="/minha-conta"
+          element={
+            <>
+              <Header />
+              <MinhaConta />
+            </>
+          }
+        />
       </Routes>
 
       {!isAuthPage && (
