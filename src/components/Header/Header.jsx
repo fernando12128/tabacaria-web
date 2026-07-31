@@ -46,7 +46,12 @@ export default function Header() {
           aria-label="Prime Tobacco — voltar ao início"
         >
           <span className="logo-wordmark">
-            <i aria-hidden="true" />
+            <img
+              className="logo-mark"
+              src="/prime-tobacco-logo.svg"
+              alt=""
+              aria-hidden="true"
+            />
             PRIME <strong>TOBACCO.</strong>
           </span>
         </Link>
