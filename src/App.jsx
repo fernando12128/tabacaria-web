@@ -7,6 +7,7 @@ import Planos from "./components/Planos/Planos";
 import Categorias from "./components/Categorias/Categorias";
 import LojaPreview from "./components/LojaPreview/LojaPreview";
 import Historia from "./components/Historia/Historia";
+import VisitePrime from "./components/VisitePrime/VisitePrime";
 import FooterCTA from "./components/FooterCTA/FooterCTA";
 import FloatingActions from "./components/FloatingActions/FloatingActions";
 import CartDrawer from "./components/CartDrawer/CartDrawer";
@@ -35,6 +36,7 @@ function HomePage() {
       ".shop-preview-section",
       ".plans-section",
       ".history-section",
+      ".visit-prime-section",
       ".footer-cta-section",
     ];
 
@@ -79,6 +81,7 @@ function HomePage() {
       <LojaPreview />
       <Planos />
       <Historia />
+      <VisitePrime />
       <FooterCTA />
     </>
   );
