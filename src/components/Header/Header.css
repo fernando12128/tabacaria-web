@@ -32,12 +32,12 @@
   letter-spacing: -0.035em;
 }
 
-.logo-wordmark i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--yellow);
-  box-shadow: 0 0 18px rgba(228, 185, 95, 0.36);
+.logo-mark {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(228, 185, 95, 0.2));
 }
 
 .logo-wordmark strong {
@@ -205,6 +205,13 @@
 @media (max-width: 480px) {
   .logo-wordmark {
     font-size: 0.88rem;
+    gap: 7px;
+  }
+
+  .logo-mark {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
   }
 
   .header-actions {
