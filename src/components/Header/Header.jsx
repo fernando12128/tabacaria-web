@@ -8,6 +8,7 @@ const navItems = [
   { label: "Categorias", hash: "categorias" },
   { label: "Prime Club", hash: "prime-club" },
   { label: "História", hash: "historia" },
+  { label: "Visite-nos", hash: "visite-nos" },
 ];
 
 export default function Header() {
