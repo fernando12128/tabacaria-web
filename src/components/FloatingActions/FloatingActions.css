@@ -48,31 +48,21 @@
 }
 
 .support-chat-avatar {
-  position: relative;
   width: 44px;
   height: 44px;
   flex: 0 0 44px;
-  overflow: hidden;
+  display: grid;
+  place-items: center;
   border-radius: 14px;
   border: 1px solid rgba(216, 184, 76, 0.4);
-  background: #121212;
-  color: #d8b84c;
+  background: radial-gradient(circle at 50% 38%, #1c1a13, #0d0d0d 72%);
+  box-shadow: 0 0 18px rgba(216, 184, 76, 0.1);
 }
 
-.support-chat-avatar span {
-  position: absolute;
-  font-size: 0.76rem;
-  font-weight: 900;
-}
-
-.support-chat-avatar span:first-child {
-  top: 8px;
-  left: 9px;
-}
-
-.support-chat-avatar span:last-child {
-  right: 8px;
-  bottom: 7px;
+.support-chat-avatar img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
 }
 
 .support-chat-header > div:nth-child(2) {
