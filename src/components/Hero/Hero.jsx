@@ -84,9 +84,17 @@ export default function Hero() {
 
       <main className="hero">
         <div className="hero-copy">
-          <div className="edition-badge">
-            <span className="dot"></span>
-            CURADORIA PREMIUM
+          <div className="hero-badges" aria-label="Destaques da Prime Tobacco">
+            <div className="partner-badge">
+              <span className="partner-badge-label">PARCEIRO OFICIAL</span>
+              <span className="partner-badge-divider" aria-hidden="true"></span>
+              <strong>BEM BOLADO</strong>
+            </div>
+
+            <div className="edition-badge">
+              <span className="dot"></span>
+              CURADORIA PREMIUM
+            </div>
           </div>
 
           <h1 className="title">
