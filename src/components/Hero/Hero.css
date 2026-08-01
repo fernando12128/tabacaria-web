@@ -284,8 +284,8 @@
 
 .hero-box-image-wrap {
   position: relative;
-  width: min(500px, 100%);
-  max-width: 500px;
+  width: min(560px, 100%);
+  max-width: 560px;
   aspect-ratio: 1;
   will-change: transform;
 }
@@ -301,14 +301,6 @@
   pointer-events: none;
   image-rendering: auto;
   filter: drop-shadow(0 30px 48px rgba(0, 0, 0, 0.6));
-}
-
-.layer-opening {
-  z-index: 3;
-}
-
-.layer-open {
-  z-index: 4;
 }
 
 .box-image-glow {

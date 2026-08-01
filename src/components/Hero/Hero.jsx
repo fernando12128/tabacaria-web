@@ -45,42 +45,51 @@ export default function Hero() {
     };
   }, []);
 
-  function getLayerOpacities(progress) {
-    let closed = 0;
-    let opening = 0;
-    let open = 0;
+  const boxFrames = [
+    "/images/box-sequence/frame-01.webp",
+    "/images/box-sequence/frame-02.webp",
+    "/images/box-sequence/frame-03.webp",
+    "/images/box-sequence/frame-04.webp",
+    "/images/box-sequence/frame-05.webp",
+  ];
 
-    if (progress < 0.28) {
-      closed = 1;
-    } else if (progress < 0.34) {
-      const transition = (progress - 0.28) / 0.06;
-      closed = 1 - transition;
-      opening = transition;
-    } else if (progress < 0.61) {
-      opening = 1;
-    } else if (progress < 0.67) {
-      const transition = (progress - 0.61) / 0.06;
-      opening = 1 - transition;
-      open = transition;
-    } else {
-      open = 1;
+  const frameTransitions = [
+    { start: 0.18, end: 0.22 },
+    { start: 0.38, end: 0.42 },
+    { start: 0.58, end: 0.62 },
+    { start: 0.78, end: 0.82 },
+  ];
+
+  function getFrameOpacities(progress) {
+    const opacities = boxFrames.map(() => 0);
+    const activeTransition = frameTransitions.findIndex(
+      ({ start, end }) => progress >= start && progress < end
+    );
+
+    if (activeTransition >= 0) {
+      const { start, end } = frameTransitions[activeTransition];
+      const transitionProgress = (progress - start) / (end - start);
+
+      opacities[activeTransition] = 1 - transitionProgress;
+      opacities[activeTransition + 1] = transitionProgress;
+      return opacities;
     }
 
-    return {
-      closed: Math.max(0, Math.min(closed, 1)),
-      opening: Math.max(0, Math.min(opening, 1)),
-      open: Math.max(0, Math.min(open, 1)),
-    };
+    const completedTransitions = frameTransitions.filter(
+      ({ end }) => progress >= end
+    ).length;
+    opacities[completedTransitions] = 1;
+    return opacities;
   }
 
-  const { closed, opening, open } = getLayerOpacities(openProgress);
+  const frameOpacities = getFrameOpacities(openProgress);
 
   const partnershipWords = [
     { label: "PARCEIRA", start: -0.12, end: 0 },
-    { label: "OFICIAL", start: 0.16, end: 0.36 },
-    { label: "DA", start: 0.34, end: 0.52 },
-    { label: "BEM", start: 0.5, end: 0.76, accent: true },
-    { label: "BOLADO", start: 0.7, end: 0.96, accent: true },
+    { label: "OFICIAL", start: 0.3, end: 0.45 },
+    { label: "DA", start: 0.48, end: 0.6 },
+    { label: "BEM", start: 0.62, end: 0.78, accent: true },
+    { label: "BOLADO", start: 0.8, end: 0.98, accent: true },
   ];
 
   function getWordProgress(start, end) {
@@ -158,24 +167,20 @@ export default function Hero() {
                 transform: `translateY(${Math.round(openProgress * -12)}px)`,
               }}
             >
-              <img
-                src="/images/box-closed.png"
-                alt=""
-                className="box-image layer-closed"
-                style={{ opacity: closed }}
-              />
-              <img
-                src="/images/box-opening.png"
-                alt=""
-                className="box-image layer-opening"
-                style={{ opacity: opening }}
-              />
-              <img
-                src="/images/box-open.png"
-                alt=""
-                className="box-image layer-open"
-                style={{ opacity: open }}
-              />
+              {boxFrames.map((src, index) => (
+                <img
+                  src={src}
+                  alt=""
+                  className="box-image"
+                  key={src}
+                  style={{
+                    opacity: frameOpacities[index],
+                    zIndex: index + 2,
+                  }}
+                  decoding="async"
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                />
+              ))}
               <div
                 className="box-image-glow"
                 style={{
