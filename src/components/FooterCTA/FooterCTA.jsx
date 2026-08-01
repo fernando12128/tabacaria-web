@@ -22,6 +22,8 @@ export default function FooterCTA() {
             <a href="#catalogo">Catálogo</a>
             <a href="#categorias">Categorias</a>
             <a href="#prime-club">Prime Club</a>
+            <a href="#historia">História</a>
+            <a href="#visite-nos">Visite-nos</a>
           </div>
 
           <div className="footer-links">
