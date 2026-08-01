@@ -53,7 +53,7 @@
   margin: 0 auto;
   padding-top: 70px;
   display: grid;
-  grid-template-columns: 92px minmax(0, 1.05fr) minmax(360px, 0.95fr);
+  grid-template-columns: 116px minmax(0, 1.05fr) minmax(360px, 0.95fr);
   align-items: center;
   gap: 54px;
 }
@@ -62,108 +62,48 @@
   --partnership-progress: 0;
   position: relative;
   z-index: 6;
-  width: 92px;
-  min-height: 520px;
-  padding: 18px 15px 17px;
+  width: 116px;
+  min-height: 500px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
-  border: 1px solid rgba(228, 185, 95, 0.2);
-  background:
-    linear-gradient(145deg, rgba(228, 185, 95, 0.09), transparent 38%),
-    rgba(8, 8, 9, 0.88);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
-  transform: rotate(-1.4deg);
+  align-items: flex-start;
+  justify-content: center;
+  overflow: visible;
   isolation: isolate;
-}
-
-.partnership-rail::before,
-.partnership-rail::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-}
-
-.partnership-rail::before {
-  inset: 0;
-  z-index: -1;
-  opacity: 0.22;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 11px 11px;
-  mask-image: linear-gradient(to bottom, #000, transparent 75%);
-}
-
-.partnership-rail::after {
-  width: 46px;
-  height: 12px;
-  right: -13px;
-  top: 24px;
-  border-block: 1px solid rgba(228, 185, 95, 0.48);
-  transform: rotate(90deg);
-}
-
-.partnership-kicker {
-  color: rgba(244, 242, 238, 0.45);
-  font-family: monospace;
-  font-size: 0.5rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  white-space: nowrap;
 }
 
 .partnership-copy {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 5px;
+  gap: 9px;
 }
 
 .partnership-word {
   display: block;
-  color: rgba(244, 242, 238, calc(0.12 + var(--word-progress) * 0.88));
+  color: rgba(244, 242, 238, calc(0.18 + var(--word-progress) * 0.82));
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  font-size: 1rem;
+  font-size: 1.08rem;
   font-weight: 900;
-  line-height: 0.86;
-  letter-spacing: -0.045em;
+  line-height: 0.84;
+  letter-spacing: -0.035em;
   text-transform: uppercase;
-  transform: translateY(var(--word-shift)) skewY(-3deg);
-  filter: blur(calc((1 - var(--word-progress)) * 3px));
-  clip-path: inset(calc((1 - var(--word-progress)) * 100%) 0 0 0);
+  transform: translateX(var(--word-shift)) skewY(-3deg);
+  opacity: calc(0.18 + var(--word-progress) * 0.82);
+  clip-path: inset(0 calc((1 - var(--word-progress)) * 100%) 0 0);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
   will-change: transform, opacity, clip-path;
 }
 
 .partnership-word:first-child {
   color: #f4f2ee;
-  font-size: 0.86rem;
-  letter-spacing: 0.02em;
+  font-size: 0.98rem;
+  letter-spacing: 0.025em;
 }
 
 .partnership-word.is-accent {
-  color: rgba(228, 185, 95, calc(0.16 + var(--word-progress) * 0.84));
-  font-size: 1.54rem;
-  text-shadow: 0 0 calc(var(--word-progress) * 18px) rgba(228, 185, 95, 0.28);
-}
-
-.partnership-track {
-  position: relative;
-  width: 100%;
-  height: 2px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.partnership-track-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--yellow);
-  box-shadow: 0 0 14px rgba(228, 185, 95, 0.85);
-  transform: scaleX(var(--partnership-progress));
-  transform-origin: left center;
-  will-change: transform;
+  color: rgba(228, 185, 95, calc(0.2 + var(--word-progress) * 0.8));
+  font-size: 1.62rem;
+  text-shadow: 0 0 calc(var(--word-progress) * 12px) rgba(228, 185, 95, 0.2);
 }
 
 .hero-copy {
@@ -317,10 +257,9 @@
     position: absolute;
     top: 50%;
     left: 0;
-    width: 68px;
+    width: 78px;
     min-height: 430px;
-    padding-inline: 10px;
-    transform: translateY(-50%) rotate(-1.4deg);
+    transform: translateY(-50%);
   }
 
   .partnership-word {
@@ -345,7 +284,7 @@
 
 .hero-box-image-wrap {
   position: relative;
-  width: min(560px, 45vw);
+  width: min(500px, 45vw);
   aspect-ratio: 1;
   will-change: transform;
 }
@@ -399,16 +338,12 @@
   }
 
   .partnership-rail {
+    position: absolute;
     top: 64%;
     left: 0;
-    width: 68px;
+    width: 70px;
     min-height: 340px;
-    padding: 13px 10px 12px;
-    transform: translateY(-50%) rotate(-1.4deg);
-  }
-
-  .partnership-kicker {
-    font-size: 0.4rem;
+    transform: translateY(-50%);
   }
 
   .partnership-word {
@@ -488,6 +423,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .partnership-word {
-    filter: none;
+    transition: none;
   }
 }
