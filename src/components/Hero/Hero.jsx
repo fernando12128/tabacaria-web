@@ -54,11 +54,16 @@ export default function Hero() {
   ];
 
   const frameTransitions = [
-    { start: 0.18, end: 0.22 },
-    { start: 0.38, end: 0.42 },
-    { start: 0.58, end: 0.62 },
-    { start: 0.78, end: 0.82 },
+    { start: 0.15, end: 0.25 },
+    { start: 0.35, end: 0.45 },
+    { start: 0.55, end: 0.65 },
+    { start: 0.75, end: 0.85 },
   ];
+
+  function smoothStep(progress) {
+    const clampedProgress = Math.min(Math.max(progress, 0), 1);
+    return clampedProgress * clampedProgress * (3 - 2 * clampedProgress);
+  }
 
   function getFrameOpacities(progress) {
     const opacities = boxFrames.map(() => 0);
@@ -68,7 +73,9 @@ export default function Hero() {
 
     if (activeTransition >= 0) {
       const { start, end } = frameTransitions[activeTransition];
-      const transitionProgress = (progress - start) / (end - start);
+      const transitionProgress = smoothStep(
+        (progress - start) / (end - start)
+      );
 
       opacities[activeTransition] = 1 - transitionProgress;
       opacities[activeTransition + 1] = transitionProgress;
@@ -86,14 +93,14 @@ export default function Hero() {
 
   const partnershipWords = [
     { label: "PARCEIRA", start: -0.12, end: 0 },
-    { label: "OFICIAL", start: 0.3, end: 0.45 },
-    { label: "DA", start: 0.48, end: 0.6 },
-    { label: "BEM", start: 0.62, end: 0.78, accent: true },
-    { label: "BOLADO", start: 0.8, end: 0.98, accent: true },
+    { label: "OFICIAL", start: 0.3, end: 0.44 },
+    { label: "DA", start: 0.46, end: 0.58 },
+    { label: "BEM", start: 0.6, end: 0.74, accent: true },
+    { label: "BOLADO", start: 0.76, end: 0.92, accent: true },
   ];
 
   function getWordProgress(start, end) {
-    return Math.min(Math.max((openProgress - start) / (end - start), 0), 1);
+    return smoothStep((openProgress - start) / (end - start));
   }
 
   return (
