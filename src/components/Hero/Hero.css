@@ -287,11 +287,9 @@
   width: min(560px, 100%);
   max-width: 560px;
   aspect-ratio: 1;
-  opacity: var(--box-intro-opacity, 1);
-  filter: blur(var(--box-intro-blur, 0));
-  transform: translateY(var(--box-translate-y, 0)) scale(var(--box-intro-scale, 1));
+  transform: translateY(var(--box-translate-y, 0));
   transform-origin: center;
-  will-change: transform, filter, opacity;
+  will-change: transform;
 }
 
 .box-image {
@@ -305,6 +303,7 @@
   pointer-events: none;
   image-rendering: auto;
   filter: drop-shadow(0 30px 48px rgba(0, 0, 0, 0.6));
+  will-change: opacity;
 }
 
 .box-image-glow {
@@ -424,8 +423,6 @@
   }
 
   .hero-box-image-wrap {
-    opacity: 1;
-    filter: none;
     transform: translateY(var(--box-translate-y, 0));
   }
 }
