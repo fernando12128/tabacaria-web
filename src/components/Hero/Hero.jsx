@@ -118,8 +118,6 @@ export default function Hero() {
               );
             })}
           </span>
-
-          </span>
         </aside>
 
         <div className="hero-copy">
