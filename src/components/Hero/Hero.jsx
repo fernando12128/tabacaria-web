@@ -54,15 +54,25 @@ export default function Hero() {
   ];
 
   const frameTransitions = [
-    { start: 0.15, end: 0.25 },
-    { start: 0.35, end: 0.45 },
-    { start: 0.55, end: 0.65 },
-    { start: 0.75, end: 0.85 },
+    { start: 0.14, end: 0.28 },
+    { start: 0.32, end: 0.48 },
+    { start: 0.52, end: 0.68 },
+    { start: 0.72, end: 0.88 },
   ];
 
   function smoothStep(progress) {
     const clampedProgress = Math.min(Math.max(progress, 0), 1);
     return clampedProgress * clampedProgress * (3 - 2 * clampedProgress);
+  }
+
+  function smootherStep(progress) {
+    const clampedProgress = Math.min(Math.max(progress, 0), 1);
+    return (
+      clampedProgress *
+      clampedProgress *
+      clampedProgress *
+      (clampedProgress * (clampedProgress * 6 - 15) + 10)
+    );
   }
 
   function getFrameOpacities(progress) {
@@ -73,7 +83,7 @@ export default function Hero() {
 
     if (activeTransition >= 0) {
       const { start, end } = frameTransitions[activeTransition];
-      const transitionProgress = smoothStep(
+      const transitionProgress = smootherStep(
         (progress - start) / (end - start)
       );
 
@@ -90,7 +100,6 @@ export default function Hero() {
   }
 
   const frameOpacities = getFrameOpacities(openProgress);
-  const boxIntroProgress = smoothStep(openProgress / 0.12);
 
   const partnershipWords = [
     { label: "PARCEIRA", start: -0.12, end: 0 },
@@ -173,9 +182,6 @@ export default function Hero() {
               className="hero-box-image-wrap"
               style={{
                 "--box-translate-y": `${Math.round(openProgress * -12)}px`,
-                "--box-intro-blur": `${(1 - boxIntroProgress) * 2.2}px`,
-                "--box-intro-opacity": 0.92 + boxIntroProgress * 0.08,
-                "--box-intro-scale": 0.985 + boxIntroProgress * 0.015,
               }}
             >
               {boxFrames.map((src, index) => (
