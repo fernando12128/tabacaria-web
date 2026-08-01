@@ -50,21 +50,19 @@ export default function Hero() {
     let opening = 0;
     let open = 0;
 
-    if (progress <= 0.18) {
+    if (progress < 0.28) {
       closed = 1;
-      opening = progress / 0.18;
-      open = 0;
-    } else if (progress <= 0.45) {
-      closed = 1 - (progress - 0.18) / 0.27;
+    } else if (progress < 0.34) {
+      const transition = (progress - 0.28) / 0.06;
+      closed = 1 - transition;
+      opening = transition;
+    } else if (progress < 0.61) {
       opening = 1;
-      open = 0;
-    } else if (progress <= 0.72) {
-      closed = 0;
-      opening = 1;
-      open = (progress - 0.45) / 0.27;
+    } else if (progress < 0.67) {
+      const transition = (progress - 0.61) / 0.06;
+      opening = 1 - transition;
+      open = transition;
     } else {
-      closed = 0;
-      opening = 1 - (progress - 0.72) / 0.28;
       open = 1;
     }
 
@@ -157,7 +155,7 @@ export default function Hero() {
             <div
               className="hero-box-image-wrap"
               style={{
-                transform: `translateY(${openProgress * -12}px)`,
+                transform: `translateY(${Math.round(openProgress * -12)}px)`,
               }}
             >
               <img
