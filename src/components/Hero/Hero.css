@@ -287,7 +287,11 @@
   width: min(560px, 100%);
   max-width: 560px;
   aspect-ratio: 1;
-  will-change: transform;
+  opacity: var(--box-intro-opacity, 1);
+  filter: blur(var(--box-intro-blur, 0));
+  transform: translateY(var(--box-translate-y, 0)) scale(var(--box-intro-scale, 1));
+  transform-origin: center;
+  will-change: transform, filter, opacity;
 }
 
 .box-image {
@@ -417,5 +421,11 @@
 @media (prefers-reduced-motion: reduce) {
   .partnership-word {
     transition: none;
+  }
+
+  .hero-box-image-wrap {
+    opacity: 1;
+    filter: none;
+    transform: translateY(var(--box-translate-y, 0));
   }
 }
