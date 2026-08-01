@@ -60,11 +60,6 @@ export default function Hero() {
     { start: 0.72, end: 0.88 },
   ];
 
-  function smoothStep(progress) {
-    const clampedProgress = Math.min(Math.max(progress, 0), 1);
-    return clampedProgress * clampedProgress * (3 - 2 * clampedProgress);
-  }
-
   function smootherStep(progress) {
     const clampedProgress = Math.min(Math.max(progress, 0), 1);
     return (
@@ -102,16 +97,12 @@ export default function Hero() {
   const frameOpacities = getFrameOpacities(openProgress);
 
   const partnershipWords = [
-    { label: "PARCEIRA", start: -0.12, end: 0 },
-    { label: "OFICIAL", start: 0.3, end: 0.44 },
-    { label: "DA", start: 0.46, end: 0.58 },
-    { label: "BEM", start: 0.6, end: 0.74, accent: true },
-    { label: "BOLADO", start: 0.76, end: 0.92, accent: true },
+    { label: "PARCEIRA" },
+    { label: "OFICIAL" },
+    { label: "DA" },
+    { label: "BEM", accent: true },
+    { label: "BOLADO", accent: true },
   ];
-
-  function getWordProgress(start, end) {
-    return smoothStep((openProgress - start) / (end - start));
-  }
 
   return (
     <section className="hero-section" id="topo" ref={sectionRef}>
@@ -122,25 +113,17 @@ export default function Hero() {
         <aside
           className="partnership-rail"
           aria-label="Parceira oficial da Bem Bolado"
-          style={{ "--partnership-progress": openProgress }}
         >
           <span className="partnership-copy" aria-hidden="true">
-            {partnershipWords.map(({ label, start, end, accent }) => {
-              const wordProgress = getWordProgress(start, end);
-
-              return (
-                <span
-                  className={`partnership-word${accent ? " is-accent" : ""}`}
-                  key={label}
-                  style={{
-                    "--word-progress": wordProgress,
-                    "--word-shift": `${(1 - wordProgress) * -18}px`,
-                  }}
-                >
-                  {label}
-                </span>
-              );
-            })}
+            {partnershipWords.map(({ label, accent }, index) => (
+              <span
+                className={`partnership-word${accent ? " is-accent" : ""}`}
+                key={label}
+                style={{ "--word-index": index }}
+              >
+                {label}
+              </span>
+            ))}
           </span>
         </aside>
 
