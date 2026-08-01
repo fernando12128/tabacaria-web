@@ -90,6 +90,7 @@ export default function Hero() {
   }
 
   const frameOpacities = getFrameOpacities(openProgress);
+  const boxIntroProgress = smoothStep(openProgress / 0.12);
 
   const partnershipWords = [
     { label: "PARCEIRA", start: -0.12, end: 0 },
@@ -171,7 +172,10 @@ export default function Hero() {
             <div
               className="hero-box-image-wrap"
               style={{
-                transform: `translateY(${Math.round(openProgress * -12)}px)`,
+                "--box-translate-y": `${Math.round(openProgress * -12)}px`,
+                "--box-intro-blur": `${(1 - boxIntroProgress) * 2.2}px`,
+                "--box-intro-opacity": 0.92 + boxIntroProgress * 0.08,
+                "--box-intro-scale": 0.985 + boxIntroProgress * 0.015,
               }}
             >
               {boxFrames.map((src, index) => (
