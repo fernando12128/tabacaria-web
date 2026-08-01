@@ -100,10 +100,6 @@ export default function Hero() {
           aria-label="Parceira oficial da Bem Bolado"
           style={{ "--partnership-progress": openProgress }}
         >
-          <span className="partnership-kicker" aria-hidden="true">
-            COLLAB / 2017
-          </span>
-
           <span className="partnership-copy" aria-hidden="true">
             {partnershipWords.map(({ label, start, end, accent }) => {
               const wordProgress = getWordProgress(start, end);
@@ -114,7 +110,7 @@ export default function Hero() {
                   key={label}
                   style={{
                     "--word-progress": wordProgress,
-                    "--word-shift": `${(1 - wordProgress) * 22}px`,
+                    "--word-shift": `${(1 - wordProgress) * -18}px`,
                   }}
                 >
                   {label}
@@ -123,8 +119,6 @@ export default function Hero() {
             })}
           </span>
 
-          <span className="partnership-track" aria-hidden="true">
-            <span className="partnership-track-fill"></span>
           </span>
         </aside>
 
@@ -165,7 +159,7 @@ export default function Hero() {
             <div
               className="hero-box-image-wrap"
               style={{
-                transform: `translateY(${openProgress * -12}px) scale(${1 + openProgress * 0.04})`,
+                transform: `translateY(${openProgress * -12}px)`,
               }}
             >
               <img
