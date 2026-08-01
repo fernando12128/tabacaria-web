@@ -28,7 +28,8 @@ export default function FooterCTA() {
 
           <div className="footer-links">
             <strong>Atendimento</strong>
-            <span>Seg a sex, 9h às 18h</span>
+            <span>Seg a sab, 9h às 22h</span>
+            <span>Dom e feriado, 9h às 18h</span>
             <a href="mailto:contato@primetobacco.com.br">
               contato@primetobacco.com.br
             </a>
