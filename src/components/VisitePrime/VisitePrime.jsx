@@ -74,7 +74,8 @@ export default function VisitePrime() {
                 Dentro do posto de gasolina<br />
                 São Paulo — SP, CEP 04053-040
               </p>
-              <small>Segunda a sábado, das 11h às 22h</small>
+              <small>Segunda a sábado, das 09h às 22h</small>
+              <small>Domingo e Feriados, das 09h às 18h</small>
             </div>
 
             <div className="store-visit-actions">
