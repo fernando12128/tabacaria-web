@@ -50,21 +50,19 @@ export default function Hero() {
     let opening = 0;
     let open = 0;
 
-    if (progress <= 0.18) {
+    if (progress < 0.28) {
       closed = 1;
-      opening = progress / 0.18;
-      open = 0;
-    } else if (progress <= 0.45) {
-      closed = 1 - (progress - 0.18) / 0.27;
+    } else if (progress < 0.34) {
+      const transition = (progress - 0.28) / 0.06;
+      closed = 1 - transition;
+      opening = transition;
+    } else if (progress < 0.61) {
       opening = 1;
-      open = 0;
-    } else if (progress <= 0.72) {
-      closed = 0;
-      opening = 1;
-      open = (progress - 0.45) / 0.27;
+    } else if (progress < 0.67) {
+      const transition = (progress - 0.61) / 0.06;
+      opening = 1 - transition;
+      open = transition;
     } else {
-      closed = 0;
-      opening = 1 - (progress - 0.72) / 0.28;
       open = 1;
     }
 
@@ -77,20 +75,51 @@ export default function Hero() {
 
   const { closed, opening, open } = getLayerOpacities(openProgress);
 
+  const partnershipWords = [
+    { label: "PARCEIRA", start: -0.12, end: 0 },
+    { label: "OFICIAL", start: 0.16, end: 0.36 },
+    { label: "DA", start: 0.34, end: 0.52 },
+    { label: "BEM", start: 0.5, end: 0.76, accent: true },
+    { label: "BOLADO", start: 0.7, end: 0.96, accent: true },
+  ];
+
+  function getWordProgress(start, end) {
+    return Math.min(Math.max((openProgress - start) / (end - start), 0), 1);
+  }
+
   return (
     <section className="hero-section" id="topo" ref={sectionRef}>
       <div className="background-glow"></div>
       <div className="background-noise"></div>
 
       <main className="hero">
+        <aside
+          className="partnership-rail"
+          aria-label="Parceira oficial da Bem Bolado"
+          style={{ "--partnership-progress": openProgress }}
+        >
+          <span className="partnership-copy" aria-hidden="true">
+            {partnershipWords.map(({ label, start, end, accent }) => {
+              const wordProgress = getWordProgress(start, end);
+
+              return (
+                <span
+                  className={`partnership-word${accent ? " is-accent" : ""}`}
+                  key={label}
+                  style={{
+                    "--word-progress": wordProgress,
+                    "--word-shift": `${(1 - wordProgress) * -18}px`,
+                  }}
+                >
+                  {label}
+                </span>
+              );
+            })}
+          </span>
+        </aside>
+
         <div className="hero-copy">
           <div className="hero-badges" aria-label="Destaques da Prime Tobacco">
-            <div className="partner-badge">
-              <span className="partner-badge-label">PARCEIRO OFICIAL</span>
-              <span className="partner-badge-divider" aria-hidden="true"></span>
-              <strong>BEM BOLADO</strong>
-            </div>
-
             <div className="edition-badge">
               <span className="dot"></span>
               CURADORIA PREMIUM
@@ -126,7 +155,7 @@ export default function Hero() {
             <div
               className="hero-box-image-wrap"
               style={{
-                transform: `translateY(${openProgress * -12}px) scale(${1 + openProgress * 0.04})`,
+                transform: `translateY(${Math.round(openProgress * -12)}px)`,
               }}
             >
               <img

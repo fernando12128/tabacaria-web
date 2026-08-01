@@ -53,9 +53,57 @@
   margin: 0 auto;
   padding-top: 70px;
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+  grid-template-columns: 164px minmax(0, 1.05fr) minmax(360px, 0.95fr);
   align-items: center;
-  gap: 54px;
+  gap: 42px;
+}
+
+.partnership-rail {
+  --partnership-progress: 0;
+  position: relative;
+  z-index: 6;
+  width: 164px;
+  min-height: 520px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: visible;
+  isolation: isolate;
+}
+
+.partnership-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 13px;
+}
+
+.partnership-word {
+  display: block;
+  color: rgba(244, 242, 238, calc(0.18 + var(--word-progress) * 0.82));
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: clamp(1.45rem, 1.55vw, 1.9rem);
+  font-weight: 900;
+  line-height: 0.84;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  transform: translateX(var(--word-shift)) skewY(-3deg);
+  opacity: calc(0.18 + var(--word-progress) * 0.82);
+  clip-path: inset(0 calc((1 - var(--word-progress)) * 100%) 0 0);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+  will-change: transform, opacity, clip-path;
+}
+
+.partnership-word:first-child {
+  color: #f4f2ee;
+  font-size: clamp(1.18rem, 1.25vw, 1.5rem);
+  letter-spacing: 0.025em;
+}
+
+.partnership-word.is-accent {
+  color: rgba(228, 185, 95, calc(0.2 + var(--word-progress) * 0.8));
+  font-size: clamp(2.15rem, 2.55vw, 3.15rem);
+  text-shadow: 0 0 calc(var(--word-progress) * 12px) rgba(228, 185, 95, 0.2);
 }
 
 .hero-copy {
@@ -71,7 +119,6 @@
   flex-wrap: wrap;
 }
 
-.partner-badge,
 .edition-badge {
   width: fit-content;
   display: inline-flex;
@@ -86,65 +133,6 @@
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.23em;
-}
-
-.partner-badge {
-  position: relative;
-  overflow: hidden;
-  border-color: rgba(228, 185, 95, 0.35);
-  background: linear-gradient(110deg, rgba(228, 185, 95, 0.12), rgba(228, 185, 95, 0.035));
-  color: #eee8dc;
-  box-shadow: inset 0 0 18px rgba(228, 185, 95, 0.04), 0 10px 30px rgba(0, 0, 0, 0.2);
-  letter-spacing: 0.14em;
-}
-
-.partner-badge::after {
-  content: "";
-  position: absolute;
-  top: -80%;
-  left: -35%;
-  width: 24%;
-  height: 260%;
-  background: linear-gradient(90deg, transparent, rgba(255, 222, 143, 0.16), transparent);
-  transform: rotate(18deg);
-  animation: partner-badge-shine 6s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.partner-badge-label {
-  color: #9f9b94;
-  font-size: 0.61rem;
-}
-
-.partner-badge-divider {
-  width: 1px;
-  height: 13px;
-  background: rgba(228, 185, 95, 0.42);
-}
-
-.partner-badge strong {
-  color: var(--yellow-light);
-  font-size: 0.69rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-}
-
-@keyframes partner-badge-shine {
-  0%,
-  68% {
-    left: -35%;
-    opacity: 0;
-  }
-
-  75% {
-    opacity: 1;
-  }
-
-  88%,
-  100% {
-    left: 120%;
-    opacity: 0;
-  }
 }
 
 .edition-badge .dot {
@@ -258,6 +246,35 @@
   filter: blur(18px);
 }
 
+@media (max-width: 1180px) and (min-width: 901px) {
+  .hero {
+    padding-left: 142px;
+    grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+    gap: 36px;
+  }
+
+  .partnership-rail {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 128px;
+    min-height: 450px;
+    transform: translateY(-50%);
+  }
+
+  .partnership-word {
+    font-size: 1.15rem;
+  }
+
+  .partnership-word:first-child {
+    font-size: 0.94rem;
+  }
+
+  .partnership-word.is-accent {
+    font-size: 1.78rem;
+  }
+}
+
 .hero-box-stage {
   position: relative;
   width: 100%;
@@ -267,7 +284,8 @@
 
 .hero-box-image-wrap {
   position: relative;
-  width: min(560px, 45vw);
+  width: min(500px, 100%);
+  max-width: 500px;
   aspect-ratio: 1;
   will-change: transform;
 }
@@ -281,7 +299,7 @@
   object-fit: contain;
   user-select: none;
   pointer-events: none;
-  transition: opacity 0.1s linear;
+  image-rendering: auto;
   filter: drop-shadow(0 30px 48px rgba(0, 0, 0, 0.6));
 }
 
@@ -318,6 +336,27 @@
     align-content: center;
     gap: 18px;
     text-align: center;
+  }
+
+  .partnership-rail {
+    position: absolute;
+    top: 64%;
+    left: 0;
+    width: 106px;
+    min-height: 360px;
+    transform: translateY(-50%);
+  }
+
+  .partnership-word {
+    font-size: 1rem;
+  }
+
+  .partnership-word:first-child {
+    font-size: 0.82rem;
+  }
+
+  .partnership-word.is-accent {
+    font-size: 1.52rem;
   }
 
   .hero-badges,
@@ -377,23 +416,14 @@
     gap: 8px;
   }
 
-  .partner-badge,
   .edition-badge {
     min-height: 32px;
     padding-inline: 12px;
   }
-
-  .partner-badge-label {
-    display: none;
-  }
-
-  .partner-badge-divider {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .partner-badge::after {
-    animation: none;
+  .partnership-word {
+    transition: none;
   }
 }
