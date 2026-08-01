@@ -77,20 +77,59 @@ export default function Hero() {
 
   const { closed, opening, open } = getLayerOpacities(openProgress);
 
+  const partnershipWords = [
+    { label: "PARCEIRA", start: -0.12, end: 0 },
+    { label: "OFICIAL", start: 0.16, end: 0.36 },
+    { label: "DA", start: 0.34, end: 0.52 },
+    { label: "BEM", start: 0.5, end: 0.76, accent: true },
+    { label: "BOLADO", start: 0.7, end: 0.96, accent: true },
+  ];
+
+  function getWordProgress(start, end) {
+    return Math.min(Math.max((openProgress - start) / (end - start), 0), 1);
+  }
+
   return (
     <section className="hero-section" id="topo" ref={sectionRef}>
       <div className="background-glow"></div>
       <div className="background-noise"></div>
 
       <main className="hero">
+        <aside
+          className="partnership-rail"
+          aria-label="Parceira oficial da Bem Bolado"
+          style={{ "--partnership-progress": openProgress }}
+        >
+          <span className="partnership-kicker" aria-hidden="true">
+            COLLAB / 2017
+          </span>
+
+          <span className="partnership-copy" aria-hidden="true">
+            {partnershipWords.map(({ label, start, end, accent }) => {
+              const wordProgress = getWordProgress(start, end);
+
+              return (
+                <span
+                  className={`partnership-word${accent ? " is-accent" : ""}`}
+                  key={label}
+                  style={{
+                    "--word-progress": wordProgress,
+                    "--word-shift": `${(1 - wordProgress) * 22}px`,
+                  }}
+                >
+                  {label}
+                </span>
+              );
+            })}
+          </span>
+
+          <span className="partnership-track" aria-hidden="true">
+            <span className="partnership-track-fill"></span>
+          </span>
+        </aside>
+
         <div className="hero-copy">
           <div className="hero-badges" aria-label="Destaques da Prime Tobacco">
-            <div className="partner-badge">
-              <span className="partner-badge-label">PARCEIRO OFICIAL</span>
-              <span className="partner-badge-divider" aria-hidden="true"></span>
-              <strong>BEM BOLADO</strong>
-            </div>
-
             <div className="edition-badge">
               <span className="dot"></span>
               CURADORIA PREMIUM
