@@ -104,10 +104,10 @@
 
 .partnership-word.is-accent {
   position: relative;
-  color: #a970ff;
+  color: #e56820;
   font-size: clamp(2.15rem, 2.55vw, 3.15rem);
   animation-name: partnership-word-drop, partnership-brand-color;
-  animation-duration: 0.76s, 12s;
+  animation-duration: 0.76s, 14s;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1), ease-in-out;
   animation-delay: calc(0.2s + var(--word-index) * 0.36s), 2.48s;
   animation-iteration-count: 1, infinite;
@@ -148,19 +148,19 @@
 @keyframes partnership-brand-color {
   0%,
   100% {
-    color: #a970ff;
+    color: #e56820;
   }
 
-  25% {
-    color: #ff5da9;
+  24% {
+    color: #f2c000;
   }
 
   50% {
-    color: #ff8738;
+    color: #00b0d0;
   }
 
-  75% {
-    color: #59d97d;
+  76% {
+    color: #c0d000;
   }
 }
 
@@ -505,7 +505,7 @@
   }
 
   .partnership-word.is-accent {
-    color: #a970ff;
+    color: #e56820;
   }
 
   .partnership-word.is-accent::after {
