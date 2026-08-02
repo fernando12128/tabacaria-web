@@ -119,6 +119,7 @@ export default function Hero() {
               <span
                 className={`partnership-word${accent ? " is-accent" : ""}`}
                 key={label}
+                data-label={accent ? label : undefined}
                 style={{ "--word-index": index }}
               >
                 {label}
