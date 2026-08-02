@@ -40,6 +40,7 @@ body,
 body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
 }
 
 a {
@@ -73,6 +74,16 @@ img,
 svg {
   display: block;
   max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  html {
+    scroll-padding-top: 76px;
+  }
+
+  .reveal-section {
+    transform: translateY(20px);
+  }
 }
 
 .sr-only {

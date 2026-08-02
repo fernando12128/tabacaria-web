@@ -105,11 +105,21 @@
 }
 
 @media (max-width: 480px) {
+  .footer-cta-section {
+    padding: 54px 16px calc(24px + env(safe-area-inset-bottom));
+  }
+
   .footer-bottom {
     grid-template-columns: 1fr;
+    gap: 34px;
   }
 
   .footer-brand-column {
     grid-column: auto;
+  }
+
+  .footer-copy {
+    margin-top: 42px;
+    line-height: 1.55;
   }
 }

@@ -250,21 +250,26 @@
 
 @media (max-width: 560px) {
   .visit-prime-section {
-    padding: 78px 16px;
+    padding: 70px 16px;
   }
 
   .visit-prime-heading {
-    margin-bottom: 34px;
+    margin-bottom: 28px;
+  }
+
+  .visit-prime-heading h2 {
+    font-size: clamp(2.1rem, 10.5vw, 3rem);
   }
 
   .reviews-card,
   .store-visit-card {
     min-height: 0;
-    border-radius: 24px;
+    padding: 24px 22px;
+    border-radius: 20px;
   }
 
   .reviews-copy {
-    margin: 58px 0;
+    margin: 38px 0;
   }
 
   .store-visit-card {
@@ -274,6 +279,9 @@
 
   .store-pin {
     order: -1;
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
   }
 
   .store-visit-actions {
