@@ -1,4 +1,27 @@
-# React + Vite
+# Prime Tobacco
+
+E-commerce mobile-first da Prime Tobacco, desenvolvido com React e Vite.
+
+## Desenvolvimento
+
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+As instruções de autenticação, banco, consulta por CEP e futura integração com os Correios estão em [docs/AUTH_AND_SHIPPING_SETUP.md](docs/AUTH_AND_SHIPPING_SETUP.md).
+
+## Comandos
+
+```bash
+npm run lint
+npm run build
+```
+
+---
+
+## Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
