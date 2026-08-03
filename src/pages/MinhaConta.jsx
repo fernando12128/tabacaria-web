@@ -1,30 +1,13 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import {
+  findAddressByCep,
+  formatCep,
+  formatPhone,
+  onlyDigits,
+} from "../services/cepService";
 import "./MinhaConta.css";
-
-const orders = [
-  {
-    id: "PT-1048",
-    date: "29 jul. 2026",
-    status: "Em transporte",
-    total: "R$ 189,70",
-    items: "Kit Prime Mensal + 2 acessórios",
-  },
-  {
-    id: "PT-0982",
-    date: "02 jul. 2026",
-    status: "Entregue",
-    total: "R$ 94,80",
-    items: "3 produtos",
-  },
-  {
-    id: "PT-0911",
-    date: "10 jun. 2026",
-    status: "Entregue",
-    total: "R$ 129,90",
-    items: "Kit Essential",
-  },
-];
 
 const tabs = [
   { id: "inicio", label: "Visão geral" },
@@ -57,112 +40,93 @@ function Icon({ name }) {
   );
 }
 
-function CurrentOrder() {
+function EmptyOrders({ compact = false }) {
   return (
-    <article className="account-current-order">
-      <div className="account-order-heading">
-        <div>
-          <span className="account-kicker">PEDIDO EM ANDAMENTO</span>
-          <h2>Seu pedido está a caminho.</h2>
-        </div>
-        <span className="account-status">
-          <i aria-hidden="true" />
-          Em transporte
+    <section className="account-section account-empty-orders">
+      <span className="account-empty-icon" aria-hidden="true">
+        <Icon name="pedidos" />
+      </span>
+      <div>
+        <span className="account-kicker">
+          {compact ? "PRIMEIRA COMPRA" : "SEUS PEDIDOS"}
         </span>
+        <h2>{compact ? "Sua história começa aqui." : "Nenhum pedido ainda."}</h2>
+        <p>
+          Quando você finalizar uma compra, o acompanhamento e o histórico
+          aparecerão nesta área.
+        </p>
       </div>
-
-      <div className="account-order-meta">
-        <span>Pedido #PT-1048</span>
-        <span>Previsão: 31 de julho</span>
-        <strong>R$ 189,70</strong>
-      </div>
-
-      <ol className="order-timeline" aria-label="Acompanhamento do pedido">
-        <li className="is-complete">
-          <i />
-          <span>Confirmado</span>
-          <small>29 jul. · 14:20</small>
-        </li>
-        <li className="is-complete">
-          <i />
-          <span>Preparado</span>
-          <small>29 jul. · 16:45</small>
-        </li>
-        <li className="is-active">
-          <i />
-          <span>Em transporte</span>
-          <small>30 jul. · 09:10</small>
-        </li>
-        <li>
-          <i />
-          <span>Entregue</span>
-          <small>Aguardando</small>
-        </li>
-      </ol>
-
-      <div className="account-order-actions">
-        <button type="button">Ver detalhes do pedido</button>
-        <a href="https://wa.me/5511999999999" target="_blank" rel="noreferrer">
-          Preciso de ajuda
-        </a>
-      </div>
-    </article>
-  );
-}
-
-function OrderHistory({ compact = false }) {
-  const visibleOrders = compact ? orders.slice(1, 3) : orders;
-
-  return (
-    <section className="account-section">
-      <div className="account-section-heading">
-        <div>
-          <span className="account-kicker">HISTÓRICO</span>
-          <h2>{compact ? "Últimos pedidos" : "Todos os pedidos"}</h2>
-        </div>
-        {compact && (
-          <button type="button" className="account-text-button">
-            Ver histórico completo →
-          </button>
-        )}
-      </div>
-
-      <div className="orders-list">
-        {visibleOrders.map((order) => (
-          <article className="order-row" key={order.id}>
-            <div className="order-row-id">
-              <strong>#{order.id}</strong>
-              <span>{order.date}</span>
-            </div>
-            <p>{order.items}</p>
-            <span
-              className={`order-row-status ${
-                order.status === "Entregue" ? "is-delivered" : ""
-              }`}
-            >
-              {order.status}
-            </span>
-            <strong className="order-row-total">{order.total}</strong>
-            <button type="button" aria-label={`Ver pedido ${order.id}`}>
-              →
-            </button>
-          </article>
-        ))}
-      </div>
+      <a href="/produtos">Explorar catálogo →</a>
     </section>
   );
 }
 
-function ProfileForm() {
-  const [editing, setEditing] = useState(false);
-  const [feedback, setFeedback] = useState("");
+function profileToForm(metadata) {
+  return {
+    full_name: metadata.full_name ?? "",
+    phone: formatPhone(metadata.phone ?? ""),
+    cep: formatCep(metadata.cep ?? ""),
+    street: metadata.street ?? "",
+    number: metadata.number ?? "",
+    complement: metadata.complement ?? "",
+    neighborhood: metadata.neighborhood ?? "",
+    city: metadata.city ?? "",
+    state: metadata.state ?? "",
+    adult_confirmed: metadata.adult_confirmed === true,
+  };
+}
 
-  function handleSubmit(event) {
+function ProfileForm({ user }) {
+  const metadata = user.user_metadata ?? {};
+  const { updateProfile } = useAuth();
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [feedback, setFeedback] = useState("");
+  const [feedbackType, setFeedbackType] = useState("success");
+  const [form, setForm] = useState(() => profileToForm(metadata));
+
+  function updateField(field, value) {
+    setForm((current) => ({ ...current, [field]: value }));
+  }
+
+  async function handleCepChange(event) {
+    const cep = formatCep(event.target.value);
+    updateField("cep", cep);
+
+    if (onlyDigits(cep).length !== 8) return;
+
+    try {
+      const address = await findAddressByCep(cep);
+      setForm((current) => ({ ...current, ...address }));
+      setFeedbackType("success");
+      setFeedback("Endereço atualizado pelo CEP. Confira o número.");
+    } catch (error) {
+      setFeedbackType("error");
+      setFeedback(error.message);
+    }
+  }
+
+  async function handleSubmit(event) {
     event.preventDefault();
-    setEditing(false);
-    setFeedback(
-      "Alterações validadas. Elas serão salvas de verdade quando conectarmos o backend."
-    );
+    setSaving(true);
+    setFeedback("");
+
+    try {
+      await updateProfile({
+        ...form,
+        phone: onlyDigits(form.phone),
+        cep: onlyDigits(form.cep),
+        state: form.state.toUpperCase(),
+      });
+      setFeedbackType("success");
+      setFeedback("Dados atualizados com sucesso.");
+      setEditing(false);
+    } catch (error) {
+      setFeedbackType("error");
+      setFeedback(error.message || "Não foi possível salvar suas alterações.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -177,6 +141,7 @@ function ProfileForm() {
             className="account-outline-button"
             type="button"
             onClick={() => {
+              setForm(profileToForm(metadata));
               setEditing(true);
               setFeedback("");
             }}
@@ -189,38 +154,98 @@ function ProfileForm() {
       <form className="profile-form" onSubmit={handleSubmit}>
         <label>
           Nome completo
-          <input defaultValue="Cliente Prime" disabled={!editing} />
-        </label>
-        <label>
-          E-mail
           <input
-            type="email"
-            defaultValue="cliente@exemplo.com"
-            disabled={!editing}
+            value={form.full_name}
+            onChange={(event) => updateField("full_name", event.target.value)}
+            disabled={!editing || saving}
+            required
           />
         </label>
         <label>
+          E-mail
+          <input type="email" value={user.email ?? ""} disabled />
+        </label>
+        <label>
           Telefone
-          <input defaultValue="(00) 00000-0000" disabled={!editing} />
+          <input
+            value={form.phone}
+            onChange={(event) =>
+              updateField("phone", formatPhone(event.target.value))
+            }
+            disabled={!editing || saving}
+            required
+          />
         </label>
         <label>
           CEP
-          <input defaultValue="00000-000" disabled={!editing} />
+          <input
+            value={form.cep}
+            onChange={handleCepChange}
+            disabled={!editing || saving}
+            maxLength="9"
+            inputMode="numeric"
+            required
+          />
         </label>
         <label className="profile-field-wide">
-          Endereço
+          Rua / Avenida
           <input
-            defaultValue="Rua Exemplo, 100 — Centro"
-            disabled={!editing}
+            value={form.street}
+            onChange={(event) => updateField("street", event.target.value)}
+            disabled={!editing || saving}
+            required
+          />
+        </label>
+        <label>
+          Número
+          <input
+            value={form.number}
+            onChange={(event) => updateField("number", event.target.value)}
+            disabled={!editing || saving}
+            required
           />
         </label>
         <label>
           Complemento
-          <input defaultValue="Apto. 42" disabled={!editing} />
+          <input
+            value={form.complement}
+            onChange={(event) => updateField("complement", event.target.value)}
+            disabled={!editing || saving}
+          />
+        </label>
+        <label>
+          Bairro
+          <input
+            value={form.neighborhood}
+            onChange={(event) => updateField("neighborhood", event.target.value)}
+            disabled={!editing || saving}
+            required
+          />
+        </label>
+        <label>
+          Cidade
+          <input
+            value={form.city}
+            onChange={(event) => updateField("city", event.target.value)}
+            disabled={!editing || saving}
+            required
+          />
+        </label>
+        <label>
+          Estado
+          <input
+            value={form.state}
+            onChange={(event) =>
+              updateField("state", event.target.value.slice(0, 2))
+            }
+            disabled={!editing || saving}
+            maxLength="2"
+            required
+          />
         </label>
 
         {feedback && (
-          <p className="profile-feedback" role="status">
+          <p className={`profile-feedback is-${feedbackType}`} role="status">
             {feedback}
           </p>
         )}
@@ -230,39 +255,62 @@ function ProfileForm() {
             <button
               type="button"
               onClick={() => {
+                setForm(profileToForm(metadata));
                 setEditing(false);
                 setFeedback("");
               }}
+              disabled={saving}
             >
               Cancelar
             </button>
-            <button type="submit">Salvar alterações</button>
+            <button type="submit" disabled={saving}>
+              {saving ? "Salvando..." : "Salvar alterações"}
+            </button>
           </div>
         )}
       </form>
-
-      <div className="account-security">
-        <div>
-          <strong>Senha e segurança</strong>
-          <span>Atualize sua senha de acesso à Prime Tobacco.</span>
-        </div>
-        <button type="button">Alterar senha</button>
-      </div>
     </section>
   );
 }
 
 export default function MinhaConta() {
   const [activeTab, setActiveTab] = useState("inicio");
+  const [signingOut, setSigningOut] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+  const metadata = user?.user_metadata ?? {};
+  const name = metadata.full_name || user?.email?.split("@")[0] || "Cliente";
+  const firstName = name.split(" ")[0];
+  const initials = useMemo(
+    () =>
+      name
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part[0])
+        .join("")
+        .toUpperCase(),
+    [name]
+  );
+
+  async function handleSignOut() {
+    setSigningOut(true);
+    try {
+      await signOut();
+      navigate("/login", { replace: true });
+    } finally {
+      setSigningOut(false);
+    }
+  }
 
   return (
     <main className="account-page">
       <div className="account-shell">
         <aside className="account-sidebar">
           <div className="account-profile">
-            <span>CP</span>
+            <span>{initials || "PT"}</span>
             <div>
-              <strong>Cliente Prime</strong>
+              <strong>{name}</strong>
               <small>Cliente Prime</small>
             </div>
           </div>
@@ -281,10 +329,15 @@ export default function MinhaConta() {
             ))}
           </nav>
 
-          <Link className="account-signout" to="/login">
+          <button
+            className="account-signout"
+            type="button"
+            onClick={handleSignOut}
+            disabled={signingOut}
+          >
             <Icon name="sair" />
-            Sair da conta
-          </Link>
+            {signingOut ? "Saindo..." : "Sair da conta"}
+          </button>
         </aside>
 
         <div className="account-content">
@@ -292,26 +345,16 @@ export default function MinhaConta() {
             <div>
               <span className="account-kicker">MINHA CONTA</span>
               <h1>
-                Olá, cliente.<br />
+                Olá, {firstName}.<br />
                 <strong>Bom ter você aqui.</strong>
               </h1>
             </div>
-            <span className="account-preview-badge">Modo demonstração</span>
+            <span className="account-preview-badge">Conta verificada</span>
           </header>
 
-          {activeTab === "inicio" && (
-            <>
-              <CurrentOrder />
-              <OrderHistory compact />
-            </>
-          )}
-          {activeTab === "pedidos" && (
-            <>
-              <CurrentOrder />
-              <OrderHistory />
-            </>
-          )}
-          {activeTab === "dados" && <ProfileForm />}
+          {activeTab === "inicio" && <EmptyOrders compact />}
+          {activeTab === "pedidos" && <EmptyOrders />}
+          {activeTab === "dados" && <ProfileForm user={user} />}
         </div>
       </div>
     </main>

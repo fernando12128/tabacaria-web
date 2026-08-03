@@ -1,15 +1,75 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 import "./Auth.css";
 
-export default function Login() {
-  const [feedback, setFeedback] = useState("");
-  const navigate = useNavigate();
+function authMessage(error) {
+  const message = error?.message?.toLowerCase() ?? "";
 
-  function handleSubmit(event) {
+  if (message.includes("invalid login credentials")) {
+    return "E-mail ou senha incorretos.";
+  }
+  if (message.includes("email not confirmed")) {
+    return "Confirme o e-mail enviado para você antes de entrar.";
+  }
+  if (message.includes("rate limit")) {
+    return "Muitas tentativas seguidas. Aguarde um instante e tente novamente.";
+  }
+
+  return error?.message || "Não foi possível entrar. Tente novamente.";
+}
+
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [feedbackType, setFeedbackType] = useState("error");
+  const [submitting, setSubmitting] = useState(false);
+  const { signIn, resetPassword, user, loading, isConfigured } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const destination = location.state?.from || "/minha-conta";
+
+  useEffect(() => {
+    if (!loading && user) navigate(destination, { replace: true });
+  }, [destination, loading, navigate, user]);
+
+  async function handleSubmit(event) {
     event.preventDefault();
-    setFeedback("Abrindo a demonstração da sua conta...");
-    window.setTimeout(() => navigate("/minha-conta"), 450);
+    setFeedback("");
+    setSubmitting(true);
+
+    try {
+      await signIn(email.trim(), password);
+      navigate(destination, { replace: true });
+    } catch (error) {
+      setFeedbackType("error");
+      setFeedback(authMessage(error));
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function handlePasswordReset() {
+    if (!email.trim()) {
+      setFeedbackType("error");
+      setFeedback("Digite seu e-mail primeiro para receber o link de recuperação.");
+      return;
+    }
+
+    setSubmitting(true);
+    setFeedback("");
+
+    try {
+      await resetPassword(email.trim());
+      setFeedbackType("success");
+      setFeedback("Enviamos um link de recuperação para o seu e-mail.");
+    } catch (error) {
+      setFeedbackType("error");
+      setFeedback(authMessage(error));
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -44,6 +104,12 @@ export default function Login() {
             Entre com os dados usados no seu cadastro.
           </p>
 
+          {!isConfigured && (
+            <p className="auth-configuration" role="status">
+              A autenticação aguarda a configuração do Supabase neste ambiente.
+            </p>
+          )}
+
           <form className="auth-form" onSubmit={handleSubmit}>
             <div className="auth-field">
               <label htmlFor="login-email">E-mail</label>
@@ -53,39 +119,58 @@ export default function Login() {
                 type="email"
                 autoComplete="email"
                 placeholder="voce@exemplo.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                disabled={submitting}
                 required
               />
             </div>
 
             <div className="auth-field">
-              <label htmlFor="login-password">Senha</label>
+              <div className="auth-label-row">
+                <label htmlFor="login-password">Senha</label>
+                <button
+                  type="button"
+                  onClick={handlePasswordReset}
+                  disabled={submitting}
+                >
+                  Esqueci minha senha
+                </button>
+              </div>
               <input
                 id="login-password"
                 name="password"
                 type="password"
                 autoComplete="current-password"
                 placeholder="Digite sua senha"
-                minLength="6"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                disabled={submitting}
+                minLength="8"
                 required
               />
             </div>
 
             {feedback && (
-              <p className="auth-feedback" role="status">
+              <p
+                className={`auth-feedback is-${feedbackType}`}
+                role={feedbackType === "error" ? "alert" : "status"}
+              >
                 {feedback}
               </p>
             )}
 
-            <button className="auth-submit" type="submit">
-              Entrar
+            <button
+              className="auth-submit"
+              type="submit"
+              disabled={submitting || !isConfigured}
+            >
+              {submitting ? "Entrando..." : "Entrar"}
             </button>
           </form>
 
           <p className="auth-assist">
             Ainda não tem uma conta? <Link to="/cadastro">Criar cadastro</Link>
-          </p>
-          <p className="auth-demo-note">
-            Acesso demonstrativo enquanto a autenticação real não está conectada.
           </p>
         </div>
       </section>

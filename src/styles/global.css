@@ -109,6 +109,32 @@ svg {
   transform: none;
 }
 
+.route-loading {
+  min-height: 100svh;
+  background: #070708;
+  color: #aaa8ad;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 0.82rem;
+}
+
+.route-loading span {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(228, 185, 95, 0.2);
+  border-top-color: var(--yellow);
+  border-radius: 50%;
+  animation: route-spin 0.7s linear infinite;
+}
+
+@keyframes route-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

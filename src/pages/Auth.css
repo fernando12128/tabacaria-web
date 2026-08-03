@@ -126,6 +126,10 @@
   width: min(100%, 520px);
 }
 
+.auth-form-register {
+  width: min(100%, 720px);
+}
+
 .auth-form-wrap h2 {
   color: #f4f2ee;
   font-size: clamp(2rem, 4vw, 3.1rem);
@@ -161,6 +165,24 @@
   font-weight: 600;
 }
 
+.auth-label-row,
+.auth-address-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.auth-label-row button {
+  color: #9f8b61;
+  font-size: 0.72rem;
+  transition: color 0.2s ease;
+}
+
+.auth-label-row button:hover {
+  color: var(--yellow-light);
+}
+
 .auth-field input {
   width: 100%;
   min-height: 52px;
@@ -184,6 +206,103 @@
   box-shadow: 0 0 0 4px rgba(228, 185, 95, 0.07);
 }
 
+.auth-field input:disabled {
+  cursor: not-allowed;
+  opacity: 0.66;
+}
+
+.auth-address-block {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(7, 7, 8, 0.58);
+}
+
+.auth-address-heading {
+  margin-bottom: 18px;
+}
+
+.auth-address-heading span {
+  color: #ddd9d1;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.auth-address-heading small {
+  color: #77757a;
+  font-size: 0.68rem;
+}
+
+.auth-address-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 0.75fr;
+  gap: 14px;
+}
+
+.auth-field-cep,
+.auth-field-complement,
+.auth-field-neighborhood,
+.auth-field-city {
+  grid-column: span 1;
+}
+
+.auth-field-street {
+  grid-column: span 1;
+}
+
+.auth-input-status {
+  position: relative;
+}
+
+.auth-input-status input {
+  padding-right: 42px;
+}
+
+.auth-input-status i {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  border: 2px solid rgba(228, 185, 95, 0.2);
+  border-top-color: var(--yellow);
+  border-radius: 50%;
+  animation: auth-spin 0.7s linear infinite;
+}
+
+.cep-feedback {
+  color: #88868b;
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+.cep-feedback.is-success {
+  color: #9abb94;
+}
+
+.cep-feedback.is-error {
+  color: #e3a99c;
+}
+
+.auth-consent {
+  width: fit-content;
+  color: #aaa8ad;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.auth-consent input {
+  width: 17px;
+  height: 17px;
+  margin-top: 1px;
+  accent-color: var(--yellow);
+}
+
 .auth-submit {
   min-height: 54px;
   margin-top: 4px;
@@ -201,6 +320,14 @@
   background: var(--yellow-light);
   box-shadow: 0 12px 34px rgba(228, 185, 95, 0.16);
   transform: translateY(-1px);
+}
+
+.auth-submit:disabled,
+.auth-label-row button:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+  transform: none;
+  box-shadow: none;
 }
 
 .auth-assist {
@@ -233,6 +360,35 @@
   line-height: 1.5;
 }
 
+.auth-feedback.is-error {
+  border-color: rgba(198, 87, 62, 0.25);
+  background: rgba(198, 87, 62, 0.08);
+  color: #e5aea1;
+}
+
+.auth-feedback.is-success {
+  border-color: rgba(103, 149, 104, 0.25);
+  background: rgba(103, 149, 104, 0.08);
+  color: #aed0a8;
+}
+
+.auth-configuration {
+  margin-top: 22px;
+  padding: 13px 15px;
+  border: 1px solid rgba(228, 185, 95, 0.22);
+  border-radius: 12px;
+  background: rgba(228, 185, 95, 0.06);
+  color: #cbb57f;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+@keyframes auth-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 900px) {
   .auth-page {
     padding: 18px;
@@ -254,6 +410,17 @@
 
   .auth-panel {
     padding-block: 54px;
+  }
+}
+
+@media (max-width: 720px) {
+  .auth-address-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .auth-field-street,
+  .auth-field-city {
+    grid-column: span 2;
   }
 }
 
@@ -287,5 +454,33 @@
 
   .auth-fields-row {
     grid-template-columns: 1fr;
+  }
+
+  .auth-address-block {
+    padding: 17px 14px;
+  }
+
+  .auth-address-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .auth-address-grid {
+    grid-template-columns: 1fr 0.72fr;
+  }
+
+  .auth-field-cep,
+  .auth-field-street,
+  .auth-field-complement,
+  .auth-field-neighborhood,
+  .auth-field-city {
+    grid-column: span 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-input-status i {
+    animation-duration: 1.4s;
   }
 }
