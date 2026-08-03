@@ -120,12 +120,23 @@ export default function Hero() {
                 className={`partnership-word${accent ? " is-accent" : ""}`}
                 key={label}
                 data-label={accent ? label : undefined}
-                style={{ "--word-index": index }}
+                style={{
+                  "--word-index": index,
+                  "--word-exit-index": partnershipWords.length - index - 1,
+                }}
               >
                 {label}
               </span>
             ))}
           </span>
+
+          <img
+            src="/images/bem-bolado-symbol.png"
+            alt=""
+            className="partnership-logo"
+            aria-hidden="true"
+            decoding="async"
+          />
         </aside>
 
         <div className="hero-copy">

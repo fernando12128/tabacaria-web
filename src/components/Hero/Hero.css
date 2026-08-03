@@ -92,8 +92,14 @@
   clip-path: inset(0 0 100% 0);
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
   will-change: transform, opacity, clip-path;
-  animation: partnership-word-drop 0.76s cubic-bezier(0.16, 1, 0.3, 1)
-    calc(0.2s + var(--word-index) * 0.36s) forwards;
+  animation-name: partnership-word-drop, partnership-word-exit;
+  animation-duration: 0.76s, 0.62s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1),
+    cubic-bezier(0.55, 0, 1, 0.45);
+  animation-delay: calc(0.2s + var(--word-index) * 0.36s),
+    calc(3.45s + var(--word-exit-index) * 0.07s);
+  animation-iteration-count: 1, 1;
+  animation-fill-mode: forwards, forwards;
 }
 
 .partnership-word:first-child {
@@ -106,12 +112,15 @@
   position: relative;
   color: #e56820;
   font-size: clamp(2.15rem, 2.55vw, 3.15rem);
-  animation-name: partnership-word-drop, partnership-brand-color;
-  animation-duration: 0.76s, 14s;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1), ease-in-out;
-  animation-delay: calc(0.2s + var(--word-index) * 0.36s), 2.48s;
-  animation-iteration-count: 1, infinite;
-  animation-fill-mode: forwards, both;
+  animation-name: partnership-word-drop, partnership-brand-color,
+    partnership-word-exit;
+  animation-duration: 0.76s, 14s, 0.62s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1), ease-in-out,
+    cubic-bezier(0.55, 0, 1, 0.45);
+  animation-delay: calc(0.2s + var(--word-index) * 0.36s), 2.48s,
+    calc(3.45s + var(--word-exit-index) * 0.07s);
+  animation-iteration-count: 1, infinite, 1;
+  animation-fill-mode: forwards, both, forwards;
 }
 
 .partnership-word.is-accent::after {
@@ -123,6 +132,27 @@
   opacity: 0;
   pointer-events: none;
   animation: partnership-live-print 6s ease-in-out 2.48s infinite;
+}
+
+.partnership-logo {
+  --logo-rest-y: 0px;
+  --logo-intro-y: 18px;
+  --logo-float-y: -7px;
+  position: absolute;
+  top: 42px;
+  left: 50%;
+  width: min(124px, 82%);
+  height: auto;
+  opacity: 0;
+  transform: translate(-50%, var(--logo-intro-y)) scale(0.72) rotate(-4deg);
+  transform-origin: center;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.38));
+  will-change: transform, opacity;
+  animation: partnership-logo-reveal 0.82s cubic-bezier(0.16, 1, 0.3, 1)
+      4.02s forwards,
+    partnership-logo-float 4.8s ease-in-out 4.84s infinite;
 }
 
 @keyframes partnership-word-drop {
@@ -142,6 +172,51 @@
     opacity: 1;
     transform: translateY(0) skewY(-3deg) scaleY(1);
     clip-path: inset(0);
+  }
+}
+
+@keyframes partnership-word-exit {
+  0% {
+    opacity: 1;
+    transform: translateY(0) skewY(-3deg) scaleY(1);
+    clip-path: inset(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) skewY(-3deg) scaleY(0.92);
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@keyframes partnership-logo-reveal {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, var(--logo-intro-y)) scale(0.72) rotate(-4deg);
+  }
+
+  72% {
+    opacity: 1;
+    transform: translate(-50%, calc(var(--logo-rest-y) - 3px)) scale(1.04)
+      rotate(1deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, var(--logo-rest-y)) scale(1) rotate(0);
+  }
+}
+
+@keyframes partnership-logo-float {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translate(-50%, var(--logo-rest-y)) rotate(-1deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, var(--logo-float-y)) rotate(1deg);
   }
 }
 
@@ -425,6 +500,14 @@
     align-items: center;
   }
 
+  .partnership-logo {
+    --logo-rest-y: -50%;
+    --logo-intro-y: calc(-50% + 18px);
+    --logo-float-y: calc(-50% - 7px);
+    top: 50%;
+    width: 66px;
+  }
+
   .partnership-copy {
     width: 100%;
     display: grid;
@@ -593,9 +676,7 @@
 @media (prefers-reduced-motion: reduce) {
   .partnership-word {
     animation: none;
-    opacity: 1;
-    transform: skewY(-3deg);
-    clip-path: inset(0);
+    opacity: 0;
   }
 
   .partnership-word.is-accent {
@@ -605,6 +686,12 @@
   .partnership-word.is-accent::after {
     animation: none;
     opacity: 0;
+  }
+
+  .partnership-logo {
+    animation: none;
+    opacity: 1;
+    transform: translate(-50%, var(--logo-rest-y));
   }
 
   .hero-box-image-wrap {
