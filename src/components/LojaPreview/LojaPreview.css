@@ -227,13 +227,28 @@
 
 @media (max-width: 650px) {
   .shop-preview-section {
-    padding: 86px 16px 94px;
+    padding: 72px 16px 78px;
   }
 
   .shop-preview-header {
     align-items: flex-start;
     flex-direction: column;
-    margin-bottom: 34px;
+    margin-bottom: 28px;
+    gap: 22px;
+  }
+
+  .shop-preview-tag {
+    margin-bottom: 12px;
+    font-size: 0.64rem;
+  }
+
+  .shop-preview-header h2 {
+    font-size: clamp(2.1rem, 10.5vw, 3rem);
+  }
+
+  .catalog-link {
+    width: 100%;
+    justify-content: center;
   }
 
   .shop-grid {
@@ -241,10 +256,23 @@
   }
 
   .shop-card {
-    min-height: 420px;
+    min-height: 0;
+    border-radius: 20px;
   }
 
   .shop-card-image {
-    height: 290px;
+    height: clamp(210px, 68vw, 270px);
+  }
+
+  .shop-card-image img {
+    padding: 18px;
+  }
+
+  .shop-card-content {
+    padding: 17px 18px 18px;
+  }
+
+  .shop-card-content h3 {
+    min-height: 0;
   }
 }

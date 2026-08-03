@@ -237,11 +237,15 @@
 
 @media (max-width: 680px) {
   .history-section {
-    padding: 78px 16px;
+    padding: 70px 16px;
   }
 
   .history-heading {
-    margin-bottom: 34px;
+    margin-bottom: 28px;
+  }
+
+  .history-heading h2 {
+    font-size: clamp(2.1rem, 10.5vw, 3rem);
   }
 
   .history-story-card {
@@ -256,8 +260,24 @@
   }
 
   .history-side-card {
-    padding: 28px;
+    padding: 24px 22px;
     display: flex;
+    gap: 32px;
+  }
+
+  .history-story-card {
+    padding: 24px 22px;
+    gap: 26px;
+    border-radius: 20px;
+  }
+
+  .history-year strong {
+    font-size: 3.25rem;
+  }
+
+  .history-copy p {
+    font-size: 0.93rem;
+    line-height: 1.7;
   }
 }
 

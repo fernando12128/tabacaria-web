@@ -112,11 +112,20 @@
 
 @media (max-width: 600px) {
   .categories-section {
-    padding: 84px 16px 92px;
+    padding: 70px 16px 76px;
   }
 
   .categories-heading {
-    margin-bottom: 38px;
+    margin-bottom: 30px;
+  }
+
+  .categories-heading > p {
+    margin-bottom: 12px;
+    font-size: 0.64rem;
+  }
+
+  .categories-heading h2 {
+    font-size: clamp(2.1rem, 10.5vw, 3rem);
   }
 
   .categories-grid {
@@ -126,10 +135,17 @@
 
   .category-card-featured {
     grid-column: auto;
-    min-height: 280px;
+    min-height: 220px;
   }
 
   .category-card {
-    border-radius: 22px;
+    min-height: 150px;
+    padding: 22px;
+    gap: 24px;
+    border-radius: 20px;
+  }
+
+  .category-card-featured {
+    padding: 26px 22px;
   }
 }

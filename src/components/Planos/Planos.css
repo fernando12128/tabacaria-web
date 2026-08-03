@@ -286,12 +286,57 @@
 
 @media (max-width: 600px) {
   .plans-section {
-    padding: 88px 16px 96px;
+    padding: 72px 16px 80px;
+  }
+
+  .plans-header {
+    margin-bottom: 34px;
+  }
+
+  .plans-tag {
+    margin-bottom: 12px;
+    font-size: 0.64rem;
+  }
+
+  .plans-title {
+    font-size: clamp(2.1rem, 10.5vw, 3rem);
+  }
+
+  .plans-subtitle {
+    margin-top: 14px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .plans-grid {
+    gap: 14px;
   }
 
   .plan-card,
   .plan-card.featured {
-    min-height: 420px;
-    padding: 32px 24px 26px;
+    min-height: 0;
+    padding: 28px 22px 22px;
+    border-radius: 20px;
+  }
+
+  .plan-card.featured {
+    padding-top: 34px;
+  }
+
+  .plan-card.featured::before {
+    border-radius: 22px;
+  }
+
+  .plan-description {
+    min-height: 0;
+  }
+
+  .plan-price {
+    margin: 22px 0;
+  }
+
+  .plan-button {
+    min-height: 48px;
+    margin-top: 28px;
   }
 }

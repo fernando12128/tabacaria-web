@@ -45,47 +45,64 @@ export default function Hero() {
     };
   }, []);
 
-  function getLayerOpacities(progress) {
-    let closed = 0;
-    let opening = 0;
-    let open = 0;
-
-    if (progress < 0.28) {
-      closed = 1;
-    } else if (progress < 0.34) {
-      const transition = (progress - 0.28) / 0.06;
-      closed = 1 - transition;
-      opening = transition;
-    } else if (progress < 0.61) {
-      opening = 1;
-    } else if (progress < 0.67) {
-      const transition = (progress - 0.61) / 0.06;
-      opening = 1 - transition;
-      open = transition;
-    } else {
-      open = 1;
-    }
-
-    return {
-      closed: Math.max(0, Math.min(closed, 1)),
-      opening: Math.max(0, Math.min(opening, 1)),
-      open: Math.max(0, Math.min(open, 1)),
-    };
-  }
-
-  const { closed, opening, open } = getLayerOpacities(openProgress);
-
-  const partnershipWords = [
-    { label: "PARCEIRA", start: -0.12, end: 0 },
-    { label: "OFICIAL", start: 0.16, end: 0.36 },
-    { label: "DA", start: 0.34, end: 0.52 },
-    { label: "BEM", start: 0.5, end: 0.76, accent: true },
-    { label: "BOLADO", start: 0.7, end: 0.96, accent: true },
+  const boxFrames = [
+    "/images/box-sequence/frame-01.webp",
+    "/images/box-sequence/frame-02.webp",
+    "/images/box-sequence/frame-03.webp",
+    "/images/box-sequence/frame-04.webp",
+    "/images/box-sequence/frame-05.webp",
   ];
 
-  function getWordProgress(start, end) {
-    return Math.min(Math.max((openProgress - start) / (end - start), 0), 1);
+  const frameTransitions = [
+    { start: 0.14, end: 0.28 },
+    { start: 0.32, end: 0.48 },
+    { start: 0.52, end: 0.68 },
+    { start: 0.72, end: 0.88 },
+  ];
+
+  function smootherStep(progress) {
+    const clampedProgress = Math.min(Math.max(progress, 0), 1);
+    return (
+      clampedProgress *
+      clampedProgress *
+      clampedProgress *
+      (clampedProgress * (clampedProgress * 6 - 15) + 10)
+    );
   }
+
+  function getFrameOpacities(progress) {
+    const opacities = boxFrames.map(() => 0);
+    const activeTransition = frameTransitions.findIndex(
+      ({ start, end }) => progress >= start && progress < end
+    );
+
+    if (activeTransition >= 0) {
+      const { start, end } = frameTransitions[activeTransition];
+      const transitionProgress = smootherStep(
+        (progress - start) / (end - start)
+      );
+
+      opacities[activeTransition] = 1 - transitionProgress;
+      opacities[activeTransition + 1] = transitionProgress;
+      return opacities;
+    }
+
+    const completedTransitions = frameTransitions.filter(
+      ({ end }) => progress >= end
+    ).length;
+    opacities[completedTransitions] = 1;
+    return opacities;
+  }
+
+  const frameOpacities = getFrameOpacities(openProgress);
+
+  const partnershipWords = [
+    { label: "PARCEIRA" },
+    { label: "OFICIAL" },
+    { label: "DA" },
+    { label: "BEM", accent: true },
+    { label: "BOLADO", accent: true },
+  ];
 
   return (
     <section className="hero-section" id="topo" ref={sectionRef}>
@@ -96,26 +113,30 @@ export default function Hero() {
         <aside
           className="partnership-rail"
           aria-label="Parceira oficial da Bem Bolado"
-          style={{ "--partnership-progress": openProgress }}
         >
           <span className="partnership-copy" aria-hidden="true">
-            {partnershipWords.map(({ label, start, end, accent }) => {
-              const wordProgress = getWordProgress(start, end);
-
-              return (
-                <span
-                  className={`partnership-word${accent ? " is-accent" : ""}`}
-                  key={label}
-                  style={{
-                    "--word-progress": wordProgress,
-                    "--word-shift": `${(1 - wordProgress) * -18}px`,
-                  }}
-                >
-                  {label}
-                </span>
-              );
-            })}
+            {partnershipWords.map(({ label, accent }, index) => (
+              <span
+                className={`partnership-word${accent ? " is-accent" : ""}`}
+                key={label}
+                data-label={accent ? label : undefined}
+                style={{
+                  "--word-index": index,
+                  "--word-exit-index": partnershipWords.length - index - 1,
+                }}
+              >
+                {label}
+              </span>
+            ))}
           </span>
+
+          <img
+            src="/images/bem-bolado-symbol.png"
+            alt=""
+            className="partnership-logo"
+            aria-hidden="true"
+            decoding="async"
+          />
         </aside>
 
         <div className="hero-copy">
@@ -155,27 +176,23 @@ export default function Hero() {
             <div
               className="hero-box-image-wrap"
               style={{
-                transform: `translateY(${Math.round(openProgress * -12)}px)`,
+                "--box-translate-y": `${Math.round(openProgress * -12)}px`,
               }}
             >
-              <img
-                src="/images/box-closed.png"
-                alt=""
-                className="box-image layer-closed"
-                style={{ opacity: closed }}
-              />
-              <img
-                src="/images/box-opening.png"
-                alt=""
-                className="box-image layer-opening"
-                style={{ opacity: opening }}
-              />
-              <img
-                src="/images/box-open.png"
-                alt=""
-                className="box-image layer-open"
-                style={{ opacity: open }}
-              />
+              {boxFrames.map((src, index) => (
+                <img
+                  src={src}
+                  alt=""
+                  className="box-image"
+                  key={src}
+                  style={{
+                    opacity: frameOpacities[index],
+                    zIndex: index + 2,
+                  }}
+                  decoding="async"
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                />
+              ))}
               <div
                 className="box-image-glow"
                 style={{
