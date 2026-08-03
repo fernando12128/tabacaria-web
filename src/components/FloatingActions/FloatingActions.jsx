@@ -141,7 +141,7 @@ export default function FloatingActions() {
         >
           <header className="support-chat-header">
             <div className="support-chat-avatar" aria-hidden="true">
-              <img src="/prime-tobacco-logo.svg" alt="" />
+              <img src="/prime-tobacco-logo.png" alt="" />
             </div>
             <div>
               <strong>Prime Tobacco</strong>

@@ -49,7 +49,7 @@ export default function Header() {
           <span className="logo-wordmark">
             <img
               className="logo-mark"
-              src="/prime-tobacco-logo.svg"
+              src="/prime-tobacco-logo.png"
               alt=""
               aria-hidden="true"
             />
