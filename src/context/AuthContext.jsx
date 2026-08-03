@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { isSupabaseConfigured, supabase } from "../lib/supabase";
-import { AuthContext } from "./authContext";
+import { AuthContext } from "./auth-context.js";
 
 function configurationError() {
   return new Error(
