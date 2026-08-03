@@ -226,7 +226,7 @@ export default function Cadastro() {
               <div className="auth-address-grid">
                 <div className="auth-field auth-field-cep">
                   <label htmlFor="register-cep">CEP</label>
-                  <div className="auth-input-status">
+                  <div className={`auth-input-status is-${cepStatus}`}>
                     <input
                       id="register-cep"
                       type="text"
@@ -237,13 +237,34 @@ export default function Cadastro() {
                       onChange={handleCepChange}
                       onBlur={() => lookupCep(form.cep)}
                       maxLength="9"
+                      aria-busy={cepStatus === "loading"}
+                      aria-invalid={cepStatus === "error"}
+                      aria-describedby={
+                        cepFeedback ? "register-cep-feedback" : undefined
+                      }
                       disabled={submitting}
                       required
                     />
-                    {cepStatus === "loading" && <i aria-hidden="true" />}
+                    {cepStatus === "loading" && (
+                      <i className="cep-status-spinner" aria-hidden="true" />
+                    )}
+                    {cepStatus === "success" && (
+                      <span className="cep-status-icon" aria-hidden="true">
+                        ✓
+                      </span>
+                    )}
+                    {cepStatus === "error" && (
+                      <span className="cep-status-icon" aria-hidden="true">
+                        ×
+                      </span>
+                    )}
                   </div>
                   {cepFeedback && (
-                    <small className={`cep-feedback is-${cepStatus}`} role="status">
+                    <small
+                      id="register-cep-feedback"
+                      className="cep-feedback-sr"
+                      role="status"
+                    >
                       {cepFeedback}
                     </small>
                   )}

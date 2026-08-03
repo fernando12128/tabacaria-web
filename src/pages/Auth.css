@@ -194,6 +194,7 @@
   color: #f4f2ee;
   transition:
     border-color 0.2s ease,
+    background-color 0.2s ease,
     box-shadow 0.2s ease;
 }
 
@@ -258,10 +259,14 @@
   padding-right: 42px;
 }
 
-.auth-input-status i {
+.auth-input-status .cep-status-spinner,
+.auth-input-status .cep-status-icon {
   position: absolute;
   top: 50%;
   right: 15px;
+}
+
+.auth-input-status .cep-status-spinner {
   width: 16px;
   height: 16px;
   margin-top: -8px;
@@ -271,18 +276,59 @@
   animation: auth-spin 0.7s linear infinite;
 }
 
-.cep-feedback {
-  color: #88868b;
-  font-size: 0.68rem;
-  line-height: 1.4;
+.auth-input-status .cep-status-icon {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
-.cep-feedback.is-success {
-  color: #9abb94;
+.auth-input-status.is-success input {
+  border-color: rgba(77, 190, 112, 0.72);
+  background: rgba(26, 83, 45, 0.28);
+  box-shadow: 0 0 0 4px rgba(77, 190, 112, 0.07);
 }
 
-.cep-feedback.is-error {
-  color: #e3a99c;
+.auth-input-status.is-success input:focus {
+  border-color: rgba(92, 216, 130, 0.88);
+  box-shadow: 0 0 0 4px rgba(77, 190, 112, 0.12);
+}
+
+.auth-input-status.is-success .cep-status-icon {
+  background: rgba(77, 190, 112, 0.16);
+  color: #79d996;
+}
+
+.auth-input-status.is-error input {
+  border-color: rgba(226, 91, 78, 0.76);
+  background: rgba(108, 30, 27, 0.3);
+  box-shadow: 0 0 0 4px rgba(226, 91, 78, 0.07);
+}
+
+.auth-input-status.is-error input:focus {
+  border-color: rgba(244, 108, 94, 0.9);
+  box-shadow: 0 0 0 4px rgba(226, 91, 78, 0.13);
+}
+
+.auth-input-status.is-error .cep-status-icon {
+  background: rgba(226, 91, 78, 0.17);
+  color: #f08d82;
+}
+
+.cep-feedback-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .auth-consent {
