@@ -262,7 +262,12 @@
   .history-side-card {
     padding: 24px 22px;
     display: flex;
+    align-items: stretch;
     gap: 32px;
+  }
+
+  .history-socials {
+    width: 100%;
   }
 
   .history-story-card {
