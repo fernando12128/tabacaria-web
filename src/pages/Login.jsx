@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import "./Auth.css";
 
@@ -28,7 +28,11 @@ export default function Login() {
   const { signIn, resetPassword, user, loading, isConfigured } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const destination = location.state?.from || "/minha-conta";
+  const [searchParams] = useSearchParams();
+  const requestedDestination = location.state?.from || searchParams.get("next");
+  const destination =
+    requestedDestination === "/checkout" ? "/checkout" : "/minha-conta";
+  const isCheckoutLogin = destination === "/checkout";
 
   useEffect(() => {
     if (!loading && user) navigate(destination, { replace: true });
@@ -101,7 +105,9 @@ export default function Login() {
         <div className="auth-form-wrap">
           <h2>Bem-vindo de volta.</h2>
           <p className="auth-intro">
-            Entre com os dados usados no seu cadastro.
+            {isCheckoutLogin
+              ? "Entre para continuar sua compra. Seu carrinho está guardado."
+              : "Entre com os dados usados no seu cadastro."}
           </p>
 
           {!isConfigured && (
@@ -170,7 +176,10 @@ export default function Login() {
           </form>
 
           <p className="auth-assist">
-            Ainda não tem uma conta? <Link to="/cadastro">Criar cadastro</Link>
+            Ainda não tem uma conta?{" "}
+            <Link to="/cadastro" state={{ from: destination }}>
+              Criar cadastro
+            </Link>
           </p>
         </div>
       </section>
