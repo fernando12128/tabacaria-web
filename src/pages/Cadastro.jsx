@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import {
   findAddressByCep,
@@ -51,6 +51,11 @@ export default function Cadastro() {
   const cepRequest = useRef(null);
   const { signUp, isConfigured } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const requestedDestination = location.state?.from;
+  const destination =
+    requestedDestination === "/checkout" ? "/checkout" : "/minha-conta";
+  const isCheckoutRegistration = destination === "/checkout";
 
   function updateField(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -121,10 +126,11 @@ export default function Cadastro() {
         email: form.email.trim(),
         password: form.password,
         profile,
+        redirectTo: destination,
       });
 
       if (data.session) {
-        navigate("/minha-conta", { replace: true });
+        navigate(destination, { replace: true });
         return;
       }
 
@@ -174,7 +180,9 @@ export default function Cadastro() {
         <div className="auth-form-wrap auth-form-register">
           <h2>Crie sua conta.</h2>
           <p className="auth-intro">
-            Digite o CEP e nós completamos o endereço para você.
+            {isCheckoutRegistration
+              ? "Crie sua conta para continuar a compra. Seu carrinho está guardado."
+              : "Digite o CEP e nós completamos o endereço para você."}
           </p>
 
           {!isConfigured && (
@@ -442,7 +450,10 @@ export default function Cadastro() {
           </form>
 
           <p className="auth-assist">
-            Já possui uma conta? <Link to="/login">Fazer login</Link>
+            Já possui uma conta?{" "}
+            <Link to="/login" state={{ from: destination }}>
+              Fazer login
+            </Link>
           </p>
         </div>
       </section>

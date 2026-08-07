@@ -1,7 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import { useAuth } from "../../hooks/useAuth";
 import "./CartDrawer.css";
 
 export default function CartDrawer() {
+  const navigate = useNavigate();
+  const { user, loading } = useAuth();
   const {
     cartItems,
     isCartOpen,
@@ -12,9 +16,16 @@ export default function CartDrawer() {
   } = useCart();
 
   function handleFinishClick() {
-    alert(
-      "Checkout ainda não implementado. Por enquanto estamos integrando apenas produtos e estoque."
-    );
+    closeCart();
+
+    if (user) {
+      navigate("/checkout");
+      return;
+    }
+
+    navigate("/login", {
+      state: { from: "/checkout", checkout: true },
+    });
   }
 
   return (
@@ -97,9 +108,9 @@ export default function CartDrawer() {
             type="button"
             className="cart-checkout-btn"
             onClick={handleFinishClick}
-            disabled={cartItems.length === 0}
+            disabled={cartItems.length === 0 || loading}
           >
-            Finalizar compra
+            {loading ? "Verificando conta..." : "Finalizar compra"}
           </button>
         </div>
       </aside>

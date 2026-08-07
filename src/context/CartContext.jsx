@@ -1,10 +1,25 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 const CartContext = createContext(null);
+const CART_STORAGE_KEY = "prime-tobacco-cart";
+
+function loadStoredCart() {
+  try {
+    const storedCart = window.localStorage.getItem(CART_STORAGE_KEY);
+    const parsedCart = storedCart ? JSON.parse(storedCart) : [];
+    return Array.isArray(parsedCart) ? parsedCart : [];
+  } catch {
+    return [];
+  }
+}
 
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(loadStoredCart);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  useEffect(() => {
+    window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
+  }, [cartItems]);
 
   function openCart() {
     setIsCartOpen(true);

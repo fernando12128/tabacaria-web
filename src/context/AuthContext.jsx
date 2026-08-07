@@ -51,13 +51,13 @@ export function AuthProvider({ children }) {
         if (error) throw error;
         return data;
       },
-      async signUp({ email, password, profile }) {
+      async signUp({ email, password, profile, redirectTo = "/minha-conta" }) {
         if (!supabase) throw configurationError();
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/minha-conta`,
+            emailRedirectTo: `${window.location.origin}${redirectTo}`,
             data: profile,
           },
         });

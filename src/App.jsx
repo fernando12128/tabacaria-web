@@ -23,6 +23,7 @@ import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
 import NovaSenha from "./pages/NovaSenha";
 import MinhaConta from "./pages/MinhaConta";
+import Checkout from "./pages/Checkout";
 
 function RouteScrollManager() {
   const { pathname, hash } = useLocation();
@@ -121,6 +122,7 @@ function AppRoutes() {
     pathname === "/login" ||
     pathname === "/cadastro" ||
     pathname === "/nova-senha";
+  const hideFloatingUi = isAuthPage || pathname === "/checkout";
 
   return (
     <>
@@ -155,9 +157,18 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <Header />
+              <Checkout />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
-      {!isAuthPage && (
+      {!hideFloatingUi && (
         <>
           <FloatingActions />
           <CartDrawer />
