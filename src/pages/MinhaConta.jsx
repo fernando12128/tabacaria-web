@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { cashbackBalance, formatCashback } from "../config/cashback";
 import {
   findAddressByCep,
   formatCep,
@@ -30,6 +31,12 @@ function Icon({ name }) {
         <path d="M5.5 20c.8-3.5 3-5.5 6.5-5.5s5.7 2 6.5 5.5" />
       </>
     ),
+    cashback: (
+      <>
+        <path d="M4 7.5h16v11H4v-11Z" />
+        <path d="M4 10.5h16M15.5 14.5h1" />
+      </>
+    ),
     sair: <path d="M10 5H5v14h5M14 8l4 4-4 4M18 12H9" />,
   };
 
@@ -37,6 +44,28 @@ function Icon({ name }) {
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
       {paths[name]}
     </svg>
+  );
+}
+
+function CashbackSummary() {
+  return (
+    <section className="account-cashback" aria-labelledby="cashback-title">
+      <div className="account-cashback-icon" aria-hidden="true">
+        <Icon name="cashback" />
+      </div>
+      <div className="account-cashback-copy">
+        <span className="account-kicker">PRIME CASHBACK</span>
+        <h2 id="cashback-title">Seu saldo disponível</h2>
+        <p>
+          Acumule cashback nas suas compras e use o saldo em pedidos futuros.
+        </p>
+      </div>
+      <div className="account-cashback-balance">
+        <small>Saldo atual</small>
+        <strong>{formatCashback(cashbackBalance)}</strong>
+        <span>Disponível para usar</span>
+      </div>
+    </section>
   );
 }
 
@@ -352,7 +381,12 @@ export default function MinhaConta() {
             <span className="account-preview-badge">Conta verificada</span>
           </header>
 
-          {activeTab === "inicio" && <EmptyOrders compact />}
+          {activeTab === "inicio" && (
+            <>
+              <CashbackSummary />
+              <EmptyOrders compact />
+            </>
+          )}
           {activeTab === "pedidos" && <EmptyOrders />}
           {activeTab === "dados" && <ProfileForm user={user} />}
         </div>

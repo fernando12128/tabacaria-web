@@ -1,6 +1,7 @@
 import { Link, Navigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../hooks/useAuth";
+import { cashbackBalance, formatCashback } from "../config/cashback";
 import "./Checkout.css";
 
 function formatAddress(profile) {
@@ -66,6 +67,17 @@ export default function Checkout() {
           </section>
 
           <aside className="checkout-side">
+            <section className="checkout-cashback">
+              <div>
+                <span>PRIME CASHBACK</span>
+                <strong>{formatCashback(cashbackBalance)}</strong>
+              </div>
+              <p>
+                Saldo disponível para usar neste pedido. A aplicação do
+                cashback será liberada junto à etapa de pagamento.
+              </p>
+            </section>
+
             <section className="checkout-card checkout-address">
               <span>ENTREGA</span>
               <h2>Endereço cadastrado</h2>

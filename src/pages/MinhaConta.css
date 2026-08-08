@@ -167,12 +167,85 @@
 }
 
 .account-current-order,
-.account-section {
+.account-section,
+.account-cashback {
   border: 1px solid var(--border);
   border-radius: 24px;
   background:
     linear-gradient(135deg, rgba(228, 185, 95, 0.035), transparent 36%),
     #101012;
+}
+
+.account-cashback {
+  min-height: 166px;
+  padding: clamp(24px, 4vw, 34px);
+  border-color: rgba(228, 185, 95, 0.24);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+}
+
+.account-cashback-icon {
+  width: 58px;
+  height: 58px;
+  border: 1px solid rgba(228, 185, 95, 0.24);
+  border-radius: 18px;
+  background: rgba(228, 185, 95, 0.08);
+  color: var(--yellow);
+  display: grid;
+  place-items: center;
+}
+
+.account-cashback-icon svg {
+  width: 26px;
+}
+
+.account-cashback-icon svg * {
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.account-cashback-copy h2 {
+  margin-top: 8px;
+  color: #f3f1ed;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  letter-spacing: -0.04em;
+}
+
+.account-cashback-copy p {
+  max-width: 500px;
+  margin-top: 8px;
+  color: #77767b;
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.account-cashback-balance {
+  min-width: 184px;
+  padding-left: 28px;
+  border-left: 1px solid var(--border);
+  display: grid;
+  gap: 5px;
+  text-align: right;
+}
+
+.account-cashback-balance small,
+.account-cashback-balance span {
+  color: #77767b;
+  font-size: 0.67rem;
+}
+
+.account-cashback-balance strong {
+  color: var(--yellow-light);
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  letter-spacing: -0.045em;
+}
+
+.account-cashback-balance span {
+  color: #9b8a67;
 }
 
 .account-empty-orders {
@@ -401,6 +474,10 @@
 .account-section {
   margin-top: 20px;
   padding: clamp(24px, 4vw, 34px);
+}
+
+.account-cashback + .account-section {
+  margin-top: 20px;
 }
 
 .account-text-button {
@@ -636,6 +713,20 @@
 
   .account-preview-badge {
     order: -1;
+  }
+
+  .account-cashback {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .account-cashback-balance {
+    grid-column: 1 / -1;
+    min-width: 0;
+    padding: 18px 0 0;
+    border-top: 1px solid var(--border);
+    border-left: 0;
+    text-align: left;
   }
 
   .account-order-heading,
