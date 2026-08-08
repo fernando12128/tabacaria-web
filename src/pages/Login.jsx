@@ -25,7 +25,7 @@ export default function Login() {
   const [feedback, setFeedback] = useState("");
   const [feedbackType, setFeedbackType] = useState("error");
   const [submitting, setSubmitting] = useState(false);
-  const { signIn, resetPassword, user, loading, isConfigured } = useAuth();
+  const { signIn, user, loading, isConfigured } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -46,28 +46,6 @@ export default function Login() {
     try {
       await signIn(email.trim(), password);
       navigate(destination, { replace: true });
-    } catch (error) {
-      setFeedbackType("error");
-      setFeedback(authMessage(error));
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  async function handlePasswordReset() {
-    if (!email.trim()) {
-      setFeedbackType("error");
-      setFeedback("Digite seu e-mail primeiro para receber o link de recuperação.");
-      return;
-    }
-
-    setSubmitting(true);
-    setFeedback("");
-
-    try {
-      await resetPassword(email.trim());
-      setFeedbackType("success");
-      setFeedback("Enviamos um link de recuperação para o seu e-mail.");
     } catch (error) {
       setFeedbackType("error");
       setFeedback(authMessage(error));
@@ -135,13 +113,13 @@ export default function Login() {
             <div className="auth-field">
               <div className="auth-label-row">
                 <label htmlFor="login-password">Senha</label>
-                <button
-                  type="button"
-                  onClick={handlePasswordReset}
-                  disabled={submitting}
+                <Link
+                  className="auth-forgot-link"
+                  to="/recuperar-senha"
+                  state={{ email: email.trim() }}
                 >
                   Esqueci minha senha
-                </button>
+                </Link>
               </div>
               <input
                 id="login-password"

@@ -11,9 +11,14 @@
 ```env
 VITE_SUPABASE_URL=https://seu-projeto.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_sua_chave_publica
+VITE_SITE_URL=https://seu-dominio-publicado.com.br
 ```
 
-Configure as mesmas variáveis em Development, Preview e Production na Vercel. Nunca use a chave `service_role` no frontend.
+Configure as mesmas variáveis em Development, Preview e Production na Vercel. `VITE_SITE_URL` garante que os links enviados pelo Supabase abram o site publicado mesmo quando a recuperação é solicitada no localhost. Nunca use a chave `service_role` no frontend.
+
+### E-mails de autenticação
+
+Os modelos prontos da Prime Tobacco estão em `supabase/email-templates/README.md`. No painel do Supabase, abra **Authentication > Email Templates**, altere o assunto e cole o HTML correspondente em **Confirm signup** e **Reset password**.
 
 ## Consulta de CEP
 

@@ -173,13 +173,15 @@
   gap: 16px;
 }
 
-.auth-label-row button {
+.auth-label-row button,
+.auth-forgot-link {
   color: #9f8b61;
   font-size: 0.72rem;
   transition: color 0.2s ease;
 }
 
-.auth-label-row button:hover {
+.auth-label-row button:hover,
+.auth-forgot-link:hover {
   color: var(--yellow-light);
 }
 
@@ -368,6 +370,12 @@
   transform: translateY(-1px);
 }
 
+.auth-submit-link {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
 .auth-submit:disabled,
 .auth-label-row button:disabled {
   cursor: not-allowed;
@@ -386,6 +394,37 @@
 .auth-assist a {
   color: var(--yellow);
   font-weight: 700;
+}
+
+.auth-success-mark {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 24px;
+  place-items: center;
+  border: 1px solid rgba(103, 149, 104, 0.35);
+  border-radius: 50%;
+  background: rgba(103, 149, 104, 0.1);
+  color: #aed0a8;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.auth-secondary-action {
+  min-height: 52px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: #dedbd5;
+  display: grid;
+  place-items: center;
+  font-size: 0.86rem;
+  font-weight: 700;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.auth-secondary-action:hover {
+  border-color: rgba(228, 185, 95, 0.45);
+  color: var(--yellow-light);
 }
 
 .auth-demo-note {

@@ -21,6 +21,7 @@ import CartDrawer from "./components/CartDrawer/CartDrawer";
 import Produtos from "./pages/Produtos";
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
+import RecuperarSenha from "./pages/RecuperarSenha";
 import NovaSenha from "./pages/NovaSenha";
 import MinhaConta from "./pages/MinhaConta";
 import Checkout from "./pages/Checkout";
@@ -121,6 +122,7 @@ function AppRoutes() {
   const isAuthPage =
     pathname === "/login" ||
     pathname === "/cadastro" ||
+    pathname === "/recuperar-senha" ||
     pathname === "/nova-senha";
   const hideFloatingUi = isAuthPage || pathname === "/checkout";
 
@@ -140,14 +142,8 @@ function AppRoutes() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
-        <Route
-          path="/nova-senha"
-          element={
-            <ProtectedRoute>
-              <NovaSenha />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/recuperar-senha" element={<RecuperarSenha />} />
+        <Route path="/nova-senha" element={<NovaSenha />} />
         <Route
           path="/minha-conta"
           element={
