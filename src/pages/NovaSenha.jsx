@@ -8,7 +8,7 @@ export default function NovaSenha() {
   const [confirmation, setConfirmation] = useState("");
   const [feedback, setFeedback] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const { updatePassword } = useAuth();
+  const { updatePassword, session, loading, isConfigured } = useAuth();
   const navigate = useNavigate();
 
   async function handleSubmit(event) {
@@ -35,6 +35,8 @@ export default function NovaSenha() {
     }
   }
 
+  const recoveryReady = !loading && Boolean(session);
+
   return (
     <main className="auth-page">
       <section className="auth-showcase" aria-label="Prime Tobacco">
@@ -59,48 +61,80 @@ export default function NovaSenha() {
 
       <section className="auth-panel">
         <div className="auth-form-wrap">
-          <h2>Defina sua nova senha.</h2>
-          <p className="auth-intro">Use pelo menos 8 caracteres.</p>
-
-          <form className="auth-form" onSubmit={handleSubmit}>
-            <div className="auth-field">
-              <label htmlFor="new-password">Nova senha</label>
-              <input
-                id="new-password"
-                type="password"
-                autoComplete="new-password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                minLength="8"
-                disabled={submitting}
-                required
-              />
-            </div>
-
-            <div className="auth-field">
-              <label htmlFor="new-password-confirmation">Confirmar senha</label>
-              <input
-                id="new-password-confirmation"
-                type="password"
-                autoComplete="new-password"
-                value={confirmation}
-                onChange={(event) => setConfirmation(event.target.value)}
-                minLength="8"
-                disabled={submitting}
-                required
-              />
-            </div>
-
-            {feedback && (
-              <p className="auth-feedback is-error" role="alert">
-                {feedback}
+          {loading ? (
+            <>
+              <h2>Validando seu link...</h2>
+              <p className="auth-intro">
+                Aguarde enquanto confirmamos a solicitação de recuperação.
               </p>
-            )}
+            </>
+          ) : !isConfigured ? (
+            <p className="auth-configuration" role="status">
+              A autenticação aguarda a configuração do Supabase neste ambiente.
+            </p>
+          ) : !recoveryReady ? (
+            <>
+              <h2>Este link não é mais válido.</h2>
+              <p className="auth-intro">
+                O link pode ter expirado ou já ter sido utilizado. Solicite um
+                novo e-mail para continuar.
+              </p>
+              <div className="auth-form">
+                <Link className="auth-submit auth-submit-link" to="/recuperar-senha">
+                  Solicitar novo link
+                </Link>
+                <Link className="auth-secondary-action" to="/login">
+                  Voltar para o login
+                </Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2>Defina sua nova senha.</h2>
+              <p className="auth-intro">Use pelo menos 8 caracteres.</p>
 
-            <button className="auth-submit" type="submit" disabled={submitting}>
-              {submitting ? "Atualizando..." : "Salvar nova senha"}
-            </button>
-          </form>
+              <form className="auth-form" onSubmit={handleSubmit}>
+                <div className="auth-field">
+                  <label htmlFor="new-password">Nova senha</label>
+                  <input
+                    id="new-password"
+                    type="password"
+                    autoComplete="new-password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    minLength="8"
+                    disabled={submitting}
+                    required
+                    autoFocus
+                  />
+                </div>
+
+                <div className="auth-field">
+                  <label htmlFor="new-password-confirmation">Confirmar senha</label>
+                  <input
+                    id="new-password-confirmation"
+                    type="password"
+                    autoComplete="new-password"
+                    value={confirmation}
+                    onChange={(event) => setConfirmation(event.target.value)}
+                    minLength="8"
+                    disabled={submitting}
+                    required
+                  />
+                </div>
+
+                {feedback && (
+                  <p className="auth-feedback is-error" role="alert">
+                    {feedback}
+                  </p>
+                )}
+
+                <button className="auth-submit" type="submit" disabled={submitting}>
+                  {submitting ? "Atualizando..." : "Salvar nova senha"}
+                </button>
+              </form>
+            </>
+          )}
         </div>
       </section>
     </main>

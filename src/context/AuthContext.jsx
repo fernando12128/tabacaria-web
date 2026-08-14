@@ -8,6 +8,14 @@ function configurationError() {
   );
 }
 
+function publicSiteUrl() {
+  const configuredUrl = String(import.meta.env.VITE_SITE_URL ?? "")
+    .trim()
+    .replace(/\/$/, "");
+
+  return configuredUrl || window.location.origin;
+}
+
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(Boolean(supabase));
@@ -57,7 +65,7 @@ export function AuthProvider({ children }) {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}${redirectTo}`,
+            emailRedirectTo: `${publicSiteUrl()}${redirectTo}`,
             data: profile,
           },
         });
@@ -72,7 +80,7 @@ export function AuthProvider({ children }) {
       async resetPassword(email) {
         if (!supabase) throw configurationError();
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `${window.location.origin}/nova-senha`,
+          redirectTo: `${publicSiteUrl()}/nova-senha`,
         });
         if (error) throw error;
       },
