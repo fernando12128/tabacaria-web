@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import {
   BrowserRouter,
   Navigate,
@@ -18,13 +18,18 @@ import VisitePrime from "./components/VisitePrime/VisitePrime";
 import FooterCTA from "./components/FooterCTA/FooterCTA";
 import FloatingActions from "./components/FloatingActions/FloatingActions";
 import CartDrawer from "./components/CartDrawer/CartDrawer";
-import Produtos from "./pages/Produtos";
-import Login from "./pages/Login";
-import Cadastro from "./pages/Cadastro";
-import RecuperarSenha from "./pages/RecuperarSenha";
-import NovaSenha from "./pages/NovaSenha";
-import MinhaConta from "./pages/MinhaConta";
-import Checkout from "./pages/Checkout";
+import FAQ from "./components/FAQ/FAQ";
+
+const Produtos = lazy(() => import("./pages/Produtos"));
+const Login = lazy(() => import("./pages/Login"));
+const Cadastro = lazy(() => import("./pages/Cadastro"));
+const RecuperarSenha = lazy(() => import("./pages/RecuperarSenha"));
+const NovaSenha = lazy(() => import("./pages/NovaSenha"));
+const MinhaConta = lazy(() => import("./pages/MinhaConta"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const InfoPage = lazy(() => import("./pages/InfoPage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Plano = lazy(() => import("./pages/Plano"));
 
 function RouteScrollManager() {
   const { pathname, hash } = useLocation();
@@ -92,6 +97,7 @@ function HomePage() {
       <Planos />
       <Historia />
       <VisitePrime />
+      <FAQ />
       <FooterCTA />
     </>
   );
@@ -129,6 +135,7 @@ function AppRoutes() {
   return (
     <>
       <RouteScrollManager />
+      <Suspense fallback={<main className="route-loading" role="status"><span />Carregando página...</main>}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
@@ -162,14 +169,18 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+        {["privacidade", "termos", "entregas-e-trocas"].map((page) => (
+          <Route key={page} path={`/${page}`} element={<><Header /><InfoPage page={page} /><FooterCTA /></>} />
+        ))}
+        <Route path="/prime-club/:planId" element={<><Header /><Plano /><FooterCTA /></>} />
+        <Route path="*" element={<><Header /><NotFound /><FooterCTA /></>} />
       </Routes>
+      </Suspense>
 
-      {!hideFloatingUi && (
-        <>
-          <FloatingActions />
-          <CartDrawer />
-        </>
-      )}
+      {["/produtos", "/minha-conta", "/checkout"].includes(pathname) && <FooterCTA />}
+
+      {!hideFloatingUi && <FloatingActions />}
+      {!isAuthPage && <CartDrawer />}
     </>
   );
 }

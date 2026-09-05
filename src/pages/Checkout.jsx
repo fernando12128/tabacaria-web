@@ -1,7 +1,7 @@
 import { Link, Navigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../hooks/useAuth";
-import { cashbackBalance, formatCashback } from "../config/cashback";
+import { formatMoney, productPriceValue } from "../lib/money";
 import "./Checkout.css";
 
 function formatAddress(profile) {
@@ -10,11 +10,11 @@ function formatAddress(profile) {
     .filter(Boolean)
     .join(" · ");
 
-  return [firstLine, secondLine].filter(Boolean);
+  return [firstLine, profile.complement, secondLine].filter(Boolean);
 }
 
 export default function Checkout() {
-  const { cartItems, formattedTotalPrice } = useCart();
+  const { cartItems, formattedTotalPrice, increaseQuantity, decreaseQuantity, removeFromCart } = useCart();
   const { user } = useAuth();
   const profile = user?.user_metadata ?? {};
   const addressLines = formatAddress(profile);
@@ -27,12 +27,12 @@ export default function Checkout() {
     <main className="checkout-page">
       <div className="checkout-shell">
         <header className="checkout-heading">
-          <span>FINALIZAÇÃO DA COMPRA</span>
+          <span>REVISÃO DO CARRINHO</span>
           <h1>
-            Revise seu pedido.<br />
-            <strong>Está quase pronto.</strong>
+            Confira seus itens.<br />
+            <strong>Prepare sua próxima compra.</strong>
           </h1>
-          <p>Você entrou na sua conta e seu carrinho foi preservado.</p>
+          <p>Seu carrinho está salvo neste navegador. A compra online ainda não está disponível.</p>
         </header>
 
         <div className="checkout-grid">
@@ -40,7 +40,7 @@ export default function Checkout() {
             <div className="checkout-card-heading">
               <div>
                 <span>SEU CARRINHO</span>
-                <h2 id="checkout-items-title">Resumo do pedido</h2>
+                <h2 id="checkout-items-title">Itens selecionados</h2>
               </div>
               <Link to="/produtos">Adicionar itens</Link>
             </div>
@@ -53,28 +53,34 @@ export default function Checkout() {
                   </div>
                   <div>
                     <h3>{item.name}</h3>
-                    <p>Quantidade: {item.quantity}</p>
+                    <p>{formatMoney(productPriceValue(item))} por unidade</p>
+                    <div className="checkout-quantity" role="group" aria-label={`Quantidade de ${item.name}`}>
+                      <button type="button" onClick={() => decreaseQuantity(item.id)} aria-label={`Diminuir quantidade de ${item.name}`}>−</button>
+                      <output aria-live="polite">{item.quantity}</output>
+                      <button type="button" onClick={() => increaseQuantity(item.id)} disabled={item.quantity >= item.stock || item.isAvailable === false} aria-label={`Aumentar quantidade de ${item.name}`}>+</button>
+                      <button type="button" className="checkout-remove" onClick={() => removeFromCart(item.id)} aria-label={`Remover ${item.name}`}>Remover</button>
+                    </div>
                   </div>
-                  <strong>{item.price}</strong>
+                  <strong aria-label={`Subtotal de ${item.name}`}>{formatMoney(productPriceValue(item) * item.quantity)}</strong>
                 </article>
               ))}
             </div>
 
             <div className="checkout-total">
-              <span>Total dos produtos</span>
-              <strong>{formattedTotalPrice}</strong>
+              <span>Subtotal dos produtos</span>
+              <strong aria-live="polite">{formattedTotalPrice}</strong>
             </div>
+            <p className="checkout-subtotal-note">Frete não incluído. Os itens no carrinho não reservam estoque.</p>
           </section>
 
           <aside className="checkout-side">
             <section className="checkout-cashback">
               <div>
                 <span>PRIME CASHBACK</span>
-                <strong>{formatCashback(cashbackBalance)}</strong>
+                <strong aria-label="Saldo indisponível">—</strong>
               </div>
               <p>
-                Saldo disponível para usar neste pedido. A aplicação do
-                cashback será liberada junto à etapa de pagamento.
+                A consulta e o uso do cashback pelo site ainda não estão disponíveis.
               </p>
             </section>
 
@@ -91,16 +97,17 @@ export default function Checkout() {
               ) : (
                 <p>Complete seu endereço antes de avançar para o pagamento.</p>
               )}
-              <Link to="/minha-conta">Conferir meus dados</Link>
+              <Link to="/minha-conta?aba=dados" state={{ from: "/checkout" }}>Conferir meus dados</Link>
             </section>
 
             <section className="checkout-next-step">
-              <span>Próxima etapa</span>
-              <strong>Entrega e pagamento</strong>
+              <span>Compra online em breve</span>
+              <strong>Entrega e pagamento ainda indisponíveis</strong>
               <p>
-                A autenticação do checkout está pronta. A seleção de frete e o
-                pagamento serão conectados na próxima etapa.
+                Nenhum pedido foi enviado e nenhuma cobrança foi feita. Você pode
+                ajustar seus itens e conferir o endereço enquanto a compra online não está disponível.
               </p>
+              <Link to="/entregas-e-trocas">Informações de entrega e atendimento →</Link>
             </section>
           </aside>
         </div>

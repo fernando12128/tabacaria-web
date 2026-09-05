@@ -40,21 +40,13 @@ const initialMessages = [
 ];
 
 export default function FloatingActions() {
-  const { cartItems, totalItems, formattedTotalPrice, isCartOpen } =
+  const { cartItems, totalItems, formattedTotalPrice } =
     useCart();
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [messages, setMessages] = useState(initialMessages);
   const [draft, setDraft] = useState("");
   const messageIdRef = useRef(0);
   const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    document.body.style.overflow = isCartOpen ? "hidden" : "auto";
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isCartOpen]);
 
   useEffect(() => {
     function handleEscape(event) {
