@@ -3,29 +3,29 @@ import "./FAQ.css";
 
 const faqItems = [
   {
-    question: "Como funciona a assinatura?",
+    question: "Já posso assinar o Prime Club?",
     answer:
-      "Você escolhe o plano ideal, seleciona o estilo de kit que mais combina com você e recebe sua caixa de forma recorrente no endereço cadastrado.",
+      "Você já pode conhecer os planos e seus benefícios. A contratação online ainda não está disponível. Consultar um plano não inicia uma assinatura nem gera cobrança.",
   },
   {
-    question: "Posso trocar de kit todo mês?",
+    question: "Consigo finalizar uma compra pelo site?",
     answer:
-      "Sim. Você pode alterar o estilo do seu kit antes do próximo ciclo de envio, de acordo com a disponibilidade da curadoria do mês.",
+      "Ainda não. Você pode explorar o catálogo e organizar seu carrinho, mas as etapas de frete e pagamento ainda não estão disponíveis. Nenhum pedido é confirmado ao adicionar produtos ou revisar o carrinho.",
   },
   {
-    question: "Tem fidelidade?",
+    question: "Meu carrinho fica salvo?",
     answer:
-      "Não. Você pode cancelar, pausar ou trocar de plano quando quiser, sem burocracia.",
+      "Sim, os itens ficam salvos neste navegador, inclusive ao entrar na conta. Isso não reserva o estoque e o carrinho não é sincronizado entre dispositivos. Em dispositivos compartilhados, remova os itens ao terminar se não quiser mantê-los.",
   },
   {
-    question: "Como é a embalagem?",
+    question: "Onde confiro meu endereço?",
     answer:
-      "A embalagem é discreta, premium e pensada para proteger os itens durante o transporte, mantendo a experiência de unboxing especial.",
+      "Em Minha conta, abra Meus dados. O CEP ajuda a preencher rua, bairro e cidade; confira também o número e o complemento.",
   },
   {
     question: "Para quais regiões vocês entregam?",
     answer:
-      "Entregamos para todo o Brasil. O prazo pode variar conforme a sua região, mas você recebe rastreio para acompanhar cada etapa.",
+      "A cobertura e os prazos de entrega online ainda não estão disponíveis. A consulta por CEP no cadastro preenche seu endereço, mas não confirma uma modalidade de envio. Consulte Entregas e trocas no rodapé para mais orientações.",
   },
 ];
 
@@ -60,6 +60,9 @@ export default function FAQ() {
               <button
                 className="faq-question"
                 onClick={() => toggleItem(index)}
+                type="button"
+                id={`faq-question-${index}`}
+                aria-controls={`faq-answer-${index}`}
                 aria-expanded={isOpen}
                 aria-label={item.question}
               >
@@ -67,7 +70,7 @@ export default function FAQ() {
                 <span className={`faq-icon ${isOpen ? "rotate" : ""}`}>⌄</span>
               </button>
 
-              <div className={`faq-answer-wrapper ${isOpen ? "show" : ""}`}>
+              <div id={`faq-answer-${index}`} role="region" aria-labelledby={`faq-question-${index}`} hidden={!isOpen}>
                 <p className="faq-answer">{item.answer}</p>
               </div>
             </article>

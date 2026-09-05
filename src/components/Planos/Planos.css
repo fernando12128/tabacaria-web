@@ -183,6 +183,10 @@
 }
 
 .plan-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   position: relative;
   isolation: isolate;
   width: 100%;

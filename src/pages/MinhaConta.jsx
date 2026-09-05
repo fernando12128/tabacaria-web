@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { cashbackBalance, formatCashback } from "../config/cashback";
 import {
   findAddressByCep,
   formatCep,
@@ -55,15 +54,15 @@ function CashbackSummary() {
       </div>
       <div className="account-cashback-copy">
         <span className="account-kicker">PRIME CASHBACK</span>
-        <h2 id="cashback-title">Seu saldo disponível</h2>
+        <h2 id="cashback-title">Seu cashback</h2>
         <p>
-          Acumule cashback nas suas compras e use o saldo em pedidos futuros.
+          A consulta do seu saldo pelo site ainda não está disponível.
         </p>
       </div>
       <div className="account-cashback-balance">
-        <small>Saldo atual</small>
-        <strong>{formatCashback(cashbackBalance)}</strong>
-        <span>Disponível para usar</span>
+        <small>Consulta de saldo</small>
+        <strong aria-label="Saldo indisponível">—</strong>
+        <span>Em breve</span>
       </div>
     </section>
   );
@@ -77,12 +76,12 @@ function EmptyOrders({ compact = false }) {
       </span>
       <div>
         <span className="account-kicker">
-          {compact ? "PRIMEIRA COMPRA" : "SEUS PEDIDOS"}
+          {compact ? "ACOMPANHAMENTO" : "SEUS PEDIDOS"}
         </span>
-        <h2>{compact ? "Sua história começa aqui." : "Nenhum pedido ainda."}</h2>
+        <h2>Histórico online em breve.</h2>
         <p>
-          Quando você finalizar uma compra, o acompanhamento e o histórico
-          aparecerão nesta área.
+          A consulta de pedidos pelo site ainda não está disponível. Para
+          informações sobre uma compra, procure o atendimento da loja.
         </p>
       </div>
       <a href="/produtos">Explorar catálogo →</a>
@@ -303,7 +302,10 @@ function ProfileForm({ user }) {
 }
 
 export default function MinhaConta() {
-  const [activeTab, setActiveTab] = useState("inicio");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedTab = searchParams.get("aba");
+  const activeTab = tabs.some((tab) => tab.id === requestedTab) ? requestedTab : "inicio";
+  const location = useLocation();
   const [signingOut, setSigningOut] = useState(false);
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
@@ -350,7 +352,8 @@ export default function MinhaConta() {
                 className={activeTab === tab.id ? "is-active" : ""}
                 type="button"
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => setSearchParams({ aba: tab.id }, { replace: true, state: location.state })}
+                aria-current={activeTab === tab.id ? "page" : undefined}
               >
                 <Icon name={tab.id} />
                 {tab.label}
@@ -370,6 +373,9 @@ export default function MinhaConta() {
         </aside>
 
         <div className="account-content">
+          {location.state?.from === "/checkout" && (
+            <Link className="account-outline-button" to="/checkout">← Voltar à revisão do carrinho</Link>
+          )}
           <header className="account-welcome">
             <div>
               <span className="account-kicker">MINHA CONTA</span>

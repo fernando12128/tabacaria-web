@@ -248,6 +248,14 @@
   line-height: 1.55;
 }
 
+.checkout-quantity { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 12px; }
+.checkout-quantity button { min-width: 36px; min-height: 36px; padding: 6px; border: 1px solid var(--border); border-radius: 8px; color: var(--text); }
+.checkout-quantity button:disabled { opacity: 0.35; cursor: not-allowed; }
+.checkout-quantity .checkout-remove { color: var(--muted); padding-inline: 12px; }
+.checkout-quantity output { min-width: 18px; text-align: center; font-size: 0.85rem; }
+.checkout-subtotal-note { margin-top: 16px; color: var(--muted); font-size: 0.78rem; line-height: 1.6; }
+.checkout-next-step a { color: var(--yellow-light); font-size: 0.8rem; line-height: 1.6; text-decoration: underline; text-underline-offset: 3px; }
+
 @media (max-width: 860px) {
   .checkout-page {
     padding-top: 104px;

@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
+import { formatMoney, productPriceValue } from "../lib/money";
+
 const CartContext = createContext(null);
 const CART_STORAGE_KEY = "prime-tobacco-cart";
 
@@ -31,28 +33,6 @@ export function CartProvider({ children }) {
 
   function toggleCart() {
     setIsCartOpen((prev) => !prev);
-  }
-
-  function getProductPrice(product) {
-    if (typeof product.priceValue === "number") {
-      return product.priceValue;
-    }
-
-    if (typeof product.price === "number") {
-      return product.price;
-    }
-
-    if (typeof product.price === "string") {
-      return Number(
-        product.price
-          .replace("R$", "")
-          .replace(/\./g, "")
-          .replace(",", ".")
-          .trim()
-      );
-    }
-
-    return 0;
   }
 
   function addToCart(product) {
@@ -137,15 +117,12 @@ export function CartProvider({ children }) {
 
   const totalPrice = useMemo(() => {
     return cartItems.reduce((acc, item) => {
-      return acc + getProductPrice(item) * item.quantity;
+      return acc + productPriceValue(item) * item.quantity;
     }, 0);
   }, [cartItems]);
 
   const formattedTotalPrice = useMemo(() => {
-    return totalPrice.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
+    return formatMoney(totalPrice);
   }, [totalPrice]);
 
   const value = {

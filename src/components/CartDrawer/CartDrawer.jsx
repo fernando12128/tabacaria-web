@@ -1,9 +1,11 @@
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../hooks/useAuth";
 import "./CartDrawer.css";
 
 export default function CartDrawer() {
+  const drawerRef = useRef(null);
   const navigate = useNavigate();
   const { user, loading } = useAuth();
   const {
@@ -14,6 +16,33 @@ export default function CartDrawer() {
     decreaseQuantity,
     formattedTotalPrice,
   } = useCart();
+
+  useEffect(() => {
+    if (!isCartOpen) return;
+    const previousFocus = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    drawerRef.current?.querySelector("button")?.focus();
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      if (previousFocus?.isConnected) previousFocus.focus();
+    };
+  }, [isCartOpen]);
+
+  function handleDialogKeyDown(event) {
+    if (event.key === "Escape") closeCart();
+    if (event.key !== "Tab") return;
+    const buttons = [...drawerRef.current.querySelectorAll("button:not(:disabled)")];
+    const first = buttons[0];
+    const last = buttons.at(-1);
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last?.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first?.focus();
+    }
+  }
 
   function handleFinishClick() {
     closeCart();
@@ -35,17 +64,17 @@ export default function CartDrawer() {
         onClick={closeCart}
       ></div>
 
-      <aside className={`cart-drawer ${isCartOpen ? "open" : ""}`}>
+      <aside ref={drawerRef} className={`cart-drawer ${isCartOpen ? "open" : ""}`} role="dialog" aria-modal={isCartOpen ? true : undefined} aria-labelledby="cart-title" inert={!isCartOpen} onKeyDown={handleDialogKeyDown}>
         <div className="cart-drawer-header">
           <div className="cart-drawer-title">
             <svg className="cart-title-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M7 8h10l-1 10H8L7 8Z" />
               <path d="M9 8a3 3 0 0 1 6 0" />
             </svg>
-            <h2>Seu Carrinho</h2>
+            <h2 id="cart-title">Seu Carrinho</h2>
           </div>
 
-          <button className="cart-close" type="button" onClick={closeCart}>
+          <button className="cart-close" type="button" onClick={closeCart} aria-label="Fechar carrinho">
             ×
           </button>
         </div>
@@ -77,6 +106,7 @@ export default function CartDrawer() {
                   <button
                     type="button"
                     onClick={() => decreaseQuantity(item.id)}
+                    aria-label={`Diminuir quantidade de ${item.name}`}
                     className="qty-btn"
                   >
                     −
@@ -87,6 +117,7 @@ export default function CartDrawer() {
                   <button
                     type="button"
                     onClick={() => increaseQuantity(item.id)}
+                    aria-label={`Aumentar quantidade de ${item.name}`}
                     className="qty-btn"
                     disabled={item.quantity >= item.stock}
                   >
@@ -110,7 +141,7 @@ export default function CartDrawer() {
             onClick={handleFinishClick}
             disabled={cartItems.length === 0 || loading}
           >
-            {loading ? "Verificando conta..." : "Finalizar compra"}
+            {loading ? "Verificando conta..." : "Revisar carrinho"}
           </button>
         </div>
       </aside>

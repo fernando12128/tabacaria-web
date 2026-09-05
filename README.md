@@ -12,11 +12,14 @@ npm run dev
 
 As instruções de autenticação, banco, consulta por CEP e futura integração com os Correios estão em [docs/AUTH_AND_SHIPPING_SETUP.md](docs/AUTH_AND_SHIPPING_SETUP.md).
 
+O estado atual da compra online e os próximos passos para pedidos, pagamento, frete, assinaturas e cashback pelo PDV estão em [docs/COMMERCE_NEXT_STEPS.md](docs/COMMERCE_NEXT_STEPS.md).
+
 ## Comandos
 
 ```bash
 npm run lint
 npm run build
+node --test tests/checkout.test.mjs
 ```
 
 ---

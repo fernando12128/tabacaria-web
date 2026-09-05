@@ -1,0 +1,22 @@
+.info-page {
+  min-height: 70svh;
+  padding: 130px 24px 80px;
+  background: radial-gradient(ellipse at top right, rgba(228, 185, 95, 0.08), transparent 50%);
+}
+
+.info-shell { max-width: 900px; margin-inline: auto; }
+.info-kicker { color: var(--yellow); font-size: 0.7rem; letter-spacing: 0.16em; font-weight: 700; }
+.info-page h1 { margin-top: 18px; font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.1; letter-spacing: -0.05em; }
+.info-intro { margin-top: 22px; color: var(--muted); line-height: 1.7; }
+.info-nav, .info-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.info-nav a, .info-actions a { padding: 12px 18px; border: 1px solid var(--border); border-radius: 24px; font-size: 0.85rem; }
+.info-nav a[aria-current], .info-actions a:first-child { border-color: var(--border-gold); color: var(--yellow-light); }
+.info-sections { margin-top: 36px; display: grid; gap: 24px; }
+.info-sections section { padding: clamp(20px, 4vw, 32px); background: var(--surface); border: 1px solid var(--border); border-radius: 20px; }
+.info-sections h2 { font-size: 1.2rem; margin-bottom: 14px; }
+.info-sections p { color: #aaa9ae; font-size: 0.95rem; line-height: 1.8; overflow-wrap: anywhere; }
+.info-sections p + p { margin-top: 12px; }
+.info-sections a, .info-source { color: var(--yellow-light); text-decoration: underline; text-underline-offset: 4px; }
+.info-source { display: inline-block; margin-top: 12px; line-height: 1.6; }
+.plan-detail-features { padding-left: 20px; color: #aaa9ae; line-height: 2; }
+@media (max-width: 600px) { .info-page { padding: 108px 16px 56px; } }
